@@ -1,0 +1,22 @@
+{
+  "channels": [
+    {
+      "id": 357736098643836930,
+      "name": "General"
+    },
+    {
+      "id": 491393366416687122,
+      "name": "TestBotChannel"
+    },
+    {
+      "id": 484510522587217932,
+      "name": "Announcements"
+    }
+  ],
+  "guilds": [
+    357736098643836928 // Spyder Web
+  ],
+  "users": [
+    337045211362623493 // SpyderHunter03
+  ]
+}

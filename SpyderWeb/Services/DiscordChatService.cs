@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SpyderWeb.Services
 {
-    public class DiscordChatService
+    public class DiscordChatService : IDiscordChatService
     {
         private readonly DiscordSocketClient _discord;
         private readonly IServiceProvider _provider;

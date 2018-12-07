@@ -1,39 +1,43 @@
-﻿using Discord;
-using Discord.Commands;
-using LiteDB;
+﻿using Discord.Commands;
 using Microsoft.Extensions.Logging;
-using SpyderWeb.Data.Tags;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SpyderWeb.Services
 {
-    public class TagService
+    public class TagService : ITagService
     {
         private readonly CommandService _commands;
-        private readonly LiteDatabase _database;
+        private readonly IDatabaseService _database;
         private readonly ILogger _logger;
 
-        public Optional<ModuleInfo> Module => module;
-        private Optional<ModuleInfo> module;
+        public ModuleInfo Module { get; private set; }
 
-        public TagService(CommandService commands, LiteDatabase database, ILoggerFactory loggerFactory)
+        public TagService(
+            CommandService commands,
+            IDatabaseService database,
+            ILoggerFactory loggerFactory)
         {
             _commands = commands;
             _database = database;
             _logger = loggerFactory.CreateLogger("tags");
 
-            module = new Optional<ModuleInfo>();
+            Init();
+        }
+
+        private async void Init()
+        {
+            await BuildTagsAsync();
         }
 
         public async Task BuildTagsAsync()
         {
-            if (module.IsSpecified)
-                await _commands.RemoveModuleAsync(module.Value);
+            if (Module == null)
+                await _commands.RemoveModuleAsync(Module);
 
-            var tags = _database.GetCollection<Tag>().FindAll();
+            var tags = _database.GetTags();
 
-            module = await _commands.CreateModuleAsync("", module =>
+            Module = await _commands.CreateModuleAsync("", module =>
             {
                 foreach (var tag in tags)
                 {

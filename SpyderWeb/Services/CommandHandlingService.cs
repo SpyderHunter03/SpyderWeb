@@ -13,27 +13,28 @@ namespace SpyderWeb.Services
     public class CommandHandlingService : ICommandHandlingService
     {
         private readonly CommandService _commands;
-        private readonly Credentials _options;
         private readonly IDiscordClientService _discordClientService;
-        private readonly Filter _filter;
+        private readonly DiscordFilter _filter;
         private IServiceProvider _provider;
+        private char _discordCommandPrefix;
 
         public CommandHandlingService(
             IDiscordClientService discordClientService, 
-            CommandService commands, 
-            IOptions<Filter> filter, 
-            IOptions<Credentials> options,
+            CommandService commands,
+            IOptionsMonitor<DiscordFilter> filter, 
+            IOptionsMonitor<Credentials> credentials,
             ILoggerFactory loggerFactory)
         {
             _commands = commands;
             _discordClientService = discordClientService;
-            _filter = filter.Value;
-            _options = options.Value;
+            _filter = filter.CurrentValue;
+
+            _discordCommandPrefix = credentials.CurrentValue.DiscordPrefix[0];
 
             var logger = loggerFactory.CreateLogger("commands");
             _commands.Log += new LogAdapter(logger).Log;
 
-            _discordClientService.DiscordClient.MessageReceived += MessageReceived;
+            _discordClientService.GetDiscordClient().MessageReceived += MessageReceived;
         }
 
         public async Task MessageReceived(SocketMessage rawMessage)
@@ -44,11 +45,11 @@ namespace SpyderWeb.Services
             if (!_filter.IsWhitelisted(message.Channel)) return;
 
             int argPos = 0;
-            if (!(message.HasMentionPrefix(_discordClientService.DiscordClient.CurrentUser, ref argPos) 
-                || message.HasStringPrefix(_options.DiscordPrefix, ref argPos)))
+            if (!(message.HasMentionPrefix(_discordClientService.GetDiscordClient().CurrentUser, ref argPos) 
+                || message.HasCharPrefix(_discordCommandPrefix, ref argPos)))
                 return;
-
-            var context = new SocketCommandContext(_discordClientService.DiscordClient, message);
+            
+            var context = new SocketCommandContext(_discordClientService.GetDiscordClient(), message);
             var result = await _commands.ExecuteAsync(context, argPos, _provider);
             if (result.Error.HasValue && result.Error.Value != CommandError.UnknownCommand)
                 await context.Channel.SendMessageAsync(result.ErrorReason);

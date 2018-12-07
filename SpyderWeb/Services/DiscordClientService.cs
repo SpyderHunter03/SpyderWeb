@@ -1,4 +1,6 @@
-﻿using Discord.WebSocket;
+﻿using Discord;
+using Discord.Rest;
+using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpyderWeb.MicrosoftLogging;
@@ -9,36 +11,36 @@ namespace SpyderWeb.Services
 {
     public class DiscordClientService : IDiscordClientService
     {
-        public DiscordSocketClient DiscordClient { get; private set; }
-        private Credentials _credentials;
-
+        private readonly DiscordSocketClient _discordClient;
+        private readonly Credentials _credentials;
         private readonly ILogger _logger;
-        private readonly IOptions<Credentials> _credentialOptions;
-        
-        public DiscordClientService(ILoggerFactory loggerFactory, IOptions<Credentials> credentialOptions)
+
+        public DiscordClientService(
+            ILoggerFactory loggerFactory, 
+            IOptionsMonitor<Credentials> credentialOptions,
+            BaseDiscordClient discordClient)
         {
             _logger = loggerFactory.CreateLogger("discord");
-            _credentialOptions = credentialOptions;
+            _credentials = credentialOptions.CurrentValue;
+            _discordClient = discordClient as DiscordSocketClient;
 
             ConfigureService();
         }
 
         private void ConfigureService()
         {
-            if (DiscordClient == null)
-            {
-                DiscordClient = new DiscordSocketClient();
-
-                DiscordClient.UseMicrosoftLogging(_logger);
-
-                _credentials = _credentialOptions.Value;
-            }
+            _discordClient.UseMicrosoftLogging(_logger);
         }
 
         public async Task StartClient()
         {
-            await DiscordClient.LoginAsync(Discord.TokenType.Bot, _credentials.DiscordToken);
-            await DiscordClient.StartAsync();
+            await _discordClient.LoginAsync(TokenType.Bot, _credentials.DiscordToken);
+            await _discordClient.StartAsync();
+        }
+
+        public DiscordSocketClient GetDiscordClient()
+        {
+            return _discordClient;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace SpyderWeb.Bootstrap
         {
             return new ConfigurationBuilder()
                 .SetBasePath(SolutionHelper.GetConfigRoot())
-                .AddJsonFile("config.json")
+                .AddJsonFile("config.json", false, true)
                 .AddJsonFile("filter.json", true)
                 .Build();
         }

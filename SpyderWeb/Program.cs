@@ -1,6 +1,4 @@
-﻿using Discord;
-using Discord.WebSocket;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using SpyderWeb.Bootstrap;
 
 namespace SpyderWeb
@@ -44,9 +42,8 @@ namespace SpyderWeb
             //create service collection
             var serviceCollection = ApplicationServiceProvider.ConfigureServices();
 
-
             //create service provider
-            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var serviceProvider = serviceCollection.BuildServiceProvider(true);
 
             //entry to run app
             serviceProvider.GetService<App>().Run();

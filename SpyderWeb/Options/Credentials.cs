@@ -2,6 +2,11 @@
 {
     public class Credentials
     {
+        public Credentials()
+        {
+
+        }
+
         public string DiscordToken { get; set; }
         public string DiscordPrefix { get; set; }
         public string TwitchBotUsername { get; set; }

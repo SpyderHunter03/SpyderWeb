@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using SpyderWeb.EmojiTools;
 using SpyderWeb.Services;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +10,17 @@ namespace SpyderWeb.Modules
     [Name("Help")]
     public class HelpModule : SpyderModuleBase
     {
-        public CommandService CommandService { get; set; }
-        public TagService TagService { get; set; }
+        private readonly CommandService _commandService;
+        private readonly ITagService _tagService;
+
+        public HelpModule(
+            IEmojiService emojiService,
+            CommandService commandService, 
+            ITagService tagService) : base(emojiService)
+        {
+            _commandService = commandService;
+            _tagService = tagService;
+        }
 
         [Command("help")]
         [Name("help")]
@@ -22,9 +32,9 @@ namespace SpyderWeb.Modules
             content.AppendLine("A utility bot for Discord.Net\n");
             content.AppendLine("```");
 
-            foreach (var module in CommandService.Modules)
+            foreach (var module in _commandService.Modules)
             {
-                if (TagService.Module.IsSpecified && module == TagService.Module.Value) continue;
+                if (_tagService.Module != null && module == _tagService.Module) continue;
                 if (module.Commands.Count == 0) continue;
 
                 content.AppendLine(module.Name);

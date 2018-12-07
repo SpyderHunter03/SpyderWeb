@@ -1,6 +1,5 @@
 ﻿using Discord;
 using Discord.Commands;
-using LiteDB;
 using Microsoft.Extensions.Options;
 using SpyderWeb.Data.Tags;
 using SpyderWeb.EmojiTools;
@@ -15,16 +14,20 @@ namespace SpyderWeb.Modules
     [Name("Tag Management")]
     public class TagModule : SpyderModuleBase
     {
-        public LiteDatabase Database { get; set; }
-        public TagService TagService { get; set; }
+        private readonly IDatabaseService _database;
+        private readonly ITagService _tagService;
 
         private readonly Options.Credentials _options;
-        private readonly EmojiService _emoji;
 
-        public TagModule(IOptions<Options.Credentials> options, EmojiService emoji)
+        public TagModule(
+            IEmojiService emoji,
+            IOptions<Options.Credentials> options,
+            IDatabaseService database,
+            ITagService tagService) : base(emoji)
         {
             _options = options.Value;
-            _emoji = emoji;
+            _database = database;
+            _tagService = tagService;
         }
 
         [Command("tag create")]
@@ -34,8 +37,8 @@ namespace SpyderWeb.Modules
         public async Task CreateTagAsync(string name, [Remainder] string content)
         {
             var tag = new Tag(name, content, Context.User);
-            Database.GetCollection<Tag>().Insert(tag);
-            await TagService.BuildTagsAsync();
+            _database.AddTag(tag);
+            await _tagService.BuildTagsAsync();
             await ReactAsync(Pass);
         }
 
@@ -46,8 +49,8 @@ namespace SpyderWeb.Modules
         [Summary("Change a tag's name")]
         public async Task SetNameAsync(string before, string after)
         {
-            var tags = Database.GetCollection<Tag>();
-            var tag = tags.FindOne(x => x.Name == before);
+            var tags = _database.GetTags();
+            var tag = tags.FirstOrDefault(x => x.Name == before);
             if (tag == null)
             {
                 await ReactAsync(TagNotFound);
@@ -58,8 +61,8 @@ namespace SpyderWeb.Modules
             tag.ActorId = Context.User.Id;
             tag.UpdatedAt = DateTimeOffset.Now;
 
-            tags.Update(tag);
-            await TagService.BuildTagsAsync();
+            _database.UpdateTag(tag);
+            await _tagService.BuildTagsAsync();
             await ReactAsync(Pass);
         }
 
@@ -69,8 +72,8 @@ namespace SpyderWeb.Modules
         [Name("tag text* <name> <text>")]
         public async Task SetContentAsync(string name, [Remainder] string content)
         {
-            var tags = Database.GetCollection<Tag>();
-            var tag = tags.FindOne(x => x.Name == name);
+            var tags = _database.GetTags();
+            var tag = tags.FirstOrDefault(x => x.Name == name);
             if (tag == null)
             {
                 await ReactAsync(TagNotFound);
@@ -81,8 +84,8 @@ namespace SpyderWeb.Modules
             tag.ActorId = Context.User.Id;
             tag.UpdatedAt = DateTimeOffset.Now;
 
-            tags.Update(tag);
-            await TagService.BuildTagsAsync();
+            _database.UpdateTag(tag);
+            await _tagService.BuildTagsAsync();
             await ReactAsync(Pass);
         }
 
@@ -92,8 +95,8 @@ namespace SpyderWeb.Modules
         [Summary("Get a tag's raw content")]
         public async Task GetRawContentAsync(string name)
         {
-            var tags = Database.GetCollection<Tag>();
-            var tag = tags.FindOne(x => x.Name == name);
+            var tags = _database.GetTags();
+            var tag = tags.FirstOrDefault(x => x.Name == name);
             if (tag == null)
             {
                 await ReactAsync(TagNotFound);
@@ -108,7 +111,7 @@ namespace SpyderWeb.Modules
         [Name("tag delete* <name>")]
         [Summary("Pretend to delete a tag")]
         public Task DeleteAsync([Remainder] string name)
-            => ReplyAsync($"Are you sure you want to do this? If so, use {_options.Prefix}tag destroy {name}");
+            => ReplyAsync($"Are you sure you want to do this? If so, use {_options.DiscordPrefix}tag destroy {name}");
 
         [Command("tag destroy")]
         [RequireElevatedUser]
@@ -116,15 +119,16 @@ namespace SpyderWeb.Modules
         [Summary("Actually delete a tag")]
         public async Task DestroyAsync(string name)
         {
-            var tags = Database.GetCollection<Tag>();
-            var tag = tags.FindOne(t => t.Name == name);
+            var tags = _database.GetTags();
+            var tag = tags.FirstOrDefault(x => x.Name == name);
             if (tag == null)
             {
                 await ReactAsync(TagNotFound);
                 return;
             }
-            tags.Delete(tag.Id);
-            await TagService.BuildTagsAsync();
+
+            _database.DeleteTag(tag);
+            await _tagService.BuildTagsAsync();
             await ReactAsync(Removed);
         }
 
@@ -134,7 +138,7 @@ namespace SpyderWeb.Modules
         [Summary("List the tags")]
         public async Task ListAsync()
         {
-            var tags = Database.GetCollection<Tag>().FindAll();
+            var tags = _database.GetTags();
             await ReplyAsync($"Tags: {string.Join(", ", tags.Select(t => t.Name))}");
         }
 
@@ -144,7 +148,8 @@ namespace SpyderWeb.Modules
         [Summary("Get info about a tag")]
         public async Task InfoAsync(string name)
         {
-            var tag = Database.GetCollection<Tag>().FindOne(t => t.Name == name);
+            var tags = _database.GetTags();
+            var tag = tags.FirstOrDefault(x => x.Name == name);
             if (tag == null)
             {
                 await ReactAsync(TagNotFound);

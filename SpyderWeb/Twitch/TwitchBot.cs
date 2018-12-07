@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TwitchLib.Api;
+using TwitchLib.Api.Interfaces;
 using TwitchLib.Api.Services;
 using TwitchLib.Api.Services.Events;
 using TwitchLib.Api.Services.Events.FollowerService;
@@ -17,17 +18,22 @@ using TwitchLib.Client.Models;
 
 namespace SpyderWeb.Twitch
 {
-    public class TwitchBot
+    public class TwitchBot : ITwitchBot
     {
         private TwitchClient _client;
         private FollowerService _service;
         private readonly ILogger _logger;
-        private readonly DiscordChatService _discordChatService;
-        private readonly TwitchAPI _twitchAPI;
+        private readonly IDiscordChatService _discordChatService;
+        private readonly ITwitchAPI _twitchAPI;
         private readonly Options.Credentials _options;
         private readonly LiteDatabase _database;
 
-        public TwitchBot(ILoggerFactory loggerFactory, DiscordChatService discordChatService, TwitchAPI twitchApi, IOptions<Options.Credentials> options, LiteDatabase database)
+        public TwitchBot(
+            ILoggerFactory loggerFactory,
+            IDiscordChatService discordChatService,
+            ITwitchAPI twitchApi,
+            IOptions<Options.Credentials> options, 
+            LiteDatabase database)
         {
             _logger = loggerFactory.CreateLogger("twitch");
             _discordChatService = discordChatService;

@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Microsoft.Extensions.Options;
+using SpyderWeb.EmojiTools;
 using SpyderWeb.Options;
 using SpyderWeb.Preconditions;
 using System;
@@ -14,7 +15,7 @@ namespace SpyderWeb.Modules
     [Name("Bot Information")]
     public class InfoModule : SpyderModuleBase
     {
-        public InfoModule(IOptions<DiscordFilter> filter) => Filter = filter.Value;
+        public InfoModule(IEmojiService emojiService, IOptions<DiscordFilter> filter) : base (emojiService) => Filter = filter.Value;
 
         [DontInject]
         public DiscordFilter Filter { get; set; }

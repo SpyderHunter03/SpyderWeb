@@ -1,12 +1,15 @@
 ﻿using Discord;
 using Discord.Commands;
 using OverwatchAPI;
+using SpyderWeb.EmojiTools;
 using System.Threading.Tasks;
 
 namespace SpyderWeb.Modules
 {
     public class OverwatchModule : SpyderModuleBase
     {
+        public OverwatchModule(IEmojiService emojiService) : base(emojiService) { }
+
         [Command("overwatch sr")]
         [Name("overwatch sr <name>")]
         [Alias("ow sr", "ow")]

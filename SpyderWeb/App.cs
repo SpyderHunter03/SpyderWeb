@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SpyderWeb
 {
-    public class App
+    public class App : IApp
     {
         private readonly IDiscordClientService _discordClientService;
         public App(IDiscordClientService discordClientService)

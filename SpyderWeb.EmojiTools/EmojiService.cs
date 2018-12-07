@@ -1,40 +1,85 @@
-﻿using Newtonsoft.Json;
+﻿using Discord;
+using Newtonsoft.Json;
 using SpyderWeb.Helpers;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace SpyderWeb.EmojiTools
 {
-    public class EmojiService
+    public class EmojiService : IEmojiService
     {
         private Dictionary<string, string> emojiDictionary;
-        private readonly string emojiFileName = "emojis.json";
+        private readonly string _emojiFileName = "emojis.json";
 
-        public EmojiService() { }
-
-        public void BuildEmojiDictionary()
+        public EmojiService()
         {
-            var emojis = JsonConvert.DeserializeObject<EmojiFileObject>(File.ReadAllText(Path.Combine(SolutionHelper.GetConfigRoot(), emojiFileName)));
-            emojiDictionary = new Dictionary<string, string>();
-            
-            emojis.People.ForEach(p => AddListToDictionary(p));
-            emojis.Nature.ForEach(n => AddListToDictionary(n));
-            emojis.Food.ForEach(f => AddListToDictionary(f));
-            emojis.Activity.ForEach(a => AddListToDictionary(a));
-            emojis.Travel.ForEach(t => AddListToDictionary(t));
-            emojis.Objects.ForEach(o => AddListToDictionary(o));
-            emojis.Symbols.ForEach(s => AddListToDictionary(s));
-            emojis.Flags.ForEach(f => AddListToDictionary(f));
+            BuildEmojiDictionary();
+        }
 
-            EmojiMap.Map = emojiDictionary;
+        private void BuildEmojiDictionary()
+        {
+            if (emojiDictionary == null || emojiDictionary.Count == 0)
+            {
+                var emojiFileObject = ReadEmojiFile(_emojiFileName);
+
+                emojiFileObject.People.ForEach(p => AddListToDictionary(p));
+                emojiFileObject.Nature.ForEach(n => AddListToDictionary(n));
+                emojiFileObject.Food.ForEach(f => AddListToDictionary(f));
+                emojiFileObject.Activity.ForEach(a => AddListToDictionary(a));
+                emojiFileObject.Travel.ForEach(t => AddListToDictionary(t));
+                emojiFileObject.Objects.ForEach(o => AddListToDictionary(o));
+                emojiFileObject.Symbols.ForEach(s => AddListToDictionary(s));
+                emojiFileObject.Flags.ForEach(f => AddListToDictionary(f));
+            }
+        }
+
+        private EmojiFileObject ReadEmojiFile(string emojiFileName)
+        {
+            var emojiFileObject = JsonConvert.DeserializeObject<EmojiFileObject>
+                (File.ReadAllText(Path.Combine(SolutionHelper.GetConfigRoot(), emojiFileName)));
+            return emojiFileObject;
         }
 
         private void AddListToDictionary(IEmoji emojis)
         {
-            foreach (var name in emojis.Names)
+            emojis.Names.ForEach(name => emojiDictionary.Add(name, emojis.Surrogates));
+        }
+
+        public string GetShorthand(Emoji emoji)
+        {
+            BuildEmojiDictionary();
+
+            var key = emojiDictionary.FirstOrDefault(x => x.Value == emoji.Name).Key;
+            if (string.IsNullOrEmpty(key))
+                throw new Exception($"Could not find an emoji with value '{emoji.Name}'");
+            return string.Concat(":", key, ":");
+        }
+
+        public bool TryGetShorthand(Emoji emoji, out string shorthand)
+        {
+            try
             {
-                emojiDictionary.Add(name, emojis.Surrogates);
+                shorthand = GetShorthand(emoji);
+                return true;
             }
+            catch(Exception)
+            {
+                shorthand = "";
+                return false;
+            }
+        }
+
+        public Emoji GetEmojiFromText(string text)
+        {
+            BuildEmojiDictionary();
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                return emojiDictionary.FromText(text);
+            }
+            return emojiDictionary.FromText("x");
         }
     }
 }

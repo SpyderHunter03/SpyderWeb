@@ -12,11 +12,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 		filter.json = filter.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpyderWeb.EmojiTools", "SpyderWeb.EmojiTools\SpyderWeb.EmojiTools.csproj", "{08F9517C-65A9-44C7-832B-1A1F84533C78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpyderWeb.EmojiTools", "SpyderWeb.EmojiTools\SpyderWeb.EmojiTools.csproj", "{08F9517C-65A9-44C7-832B-1A1F84533C78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpyderWeb.MicrosoftLogging", "SpyderWeb.MicrosoftLogging\SpyderWeb.MicrosoftLogging.csproj", "{D0DB417A-71D4-4C91-962E-D5C7BC33CDF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpyderWeb.MicrosoftLogging", "SpyderWeb.MicrosoftLogging\SpyderWeb.MicrosoftLogging.csproj", "{D0DB417A-71D4-4C91-962E-D5C7BC33CDF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpyderWeb.Helpers", "SpyderWeb.Helpers\SpyderWeb.Helpers.csproj", "{DE0CA849-2423-4D5C-A157-4C2A52411BFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpyderWeb.Helpers", "SpyderWeb.Helpers\SpyderWeb.Helpers.csproj", "{DE0CA849-2423-4D5C-A157-4C2A52411BFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8413DF31-A077-4D92-AEC8-40410C4EB5B3}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

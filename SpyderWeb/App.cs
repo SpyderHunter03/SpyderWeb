@@ -1,21 +1,23 @@
 ﻿using SpyderWeb.Services;
-using System.Threading.Tasks;
 
 namespace SpyderWeb
 {
     public class App : IApp
     {
         private readonly IDiscordClientService _discordClientService;
-        public App(IDiscordClientService discordClientService)
+        private readonly ICommandHandlingService _commandHandlingService;
+
+        public App(
+            IDiscordClientService discordClientService, 
+            ICommandHandlingService commandHandlingService)
         {
             _discordClientService = discordClientService;
+            _commandHandlingService = commandHandlingService;
         }
 
         public async void Run()
         {
-            await _discordClientService.StartClient();
-
-            await Task.Delay(-1);
+            await _discordClientService.StartClient(_commandHandlingService.MessageReceived);
         }
     }
 }

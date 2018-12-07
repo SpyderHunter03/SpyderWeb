@@ -15,26 +15,26 @@ namespace SpyderWeb.Services
         private readonly CommandService _commands;
         private readonly IDiscordClientService _discordClientService;
         private readonly DiscordFilter _filter;
-        private IServiceProvider _provider;
-        private char _discordCommandPrefix;
+        private readonly IServiceProvider _provider;
+        private readonly char _discordCommandPrefix;
 
         public CommandHandlingService(
+            IServiceProvider provider,
             IDiscordClientService discordClientService, 
             CommandService commands,
             IOptionsMonitor<DiscordFilter> filter, 
             IOptionsMonitor<Credentials> credentials,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            ITagService tagService)
         {
+            _provider = provider;
             _commands = commands;
             _discordClientService = discordClientService;
             _filter = filter.CurrentValue;
-
             _discordCommandPrefix = credentials.CurrentValue.DiscordPrefix[0];
 
             var logger = loggerFactory.CreateLogger("commands");
             _commands.Log += new LogAdapter(logger).Log;
-
-            _discordClientService.GetDiscordClient().MessageReceived += MessageReceived;
         }
 
         public async Task MessageReceived(SocketMessage rawMessage)
@@ -52,7 +52,9 @@ namespace SpyderWeb.Services
             var context = new SocketCommandContext(_discordClientService.GetDiscordClient(), message);
             var result = await _commands.ExecuteAsync(context, argPos, _provider);
             if (result.Error.HasValue && result.Error.Value != CommandError.UnknownCommand)
+            {
                 await context.Channel.SendMessageAsync(result.ErrorReason);
+            }
         }
     }
 }

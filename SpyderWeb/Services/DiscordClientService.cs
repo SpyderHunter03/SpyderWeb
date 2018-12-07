@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpyderWeb.MicrosoftLogging;
 using SpyderWeb.Options;
+using System;
 using System.Threading.Tasks;
 
 namespace SpyderWeb.Services
@@ -14,6 +15,8 @@ namespace SpyderWeb.Services
         private readonly DiscordSocketClient _discordClient;
         private readonly Credentials _credentials;
         private readonly ILogger _logger;
+
+        private bool usingMicrosoftLogger = false;
 
         public DiscordClientService(
             ILoggerFactory loggerFactory, 
@@ -29,18 +32,23 @@ namespace SpyderWeb.Services
 
         private void ConfigureService()
         {
-            _discordClient.UseMicrosoftLogging(_logger);
-        }
-
-        public async Task StartClient()
-        {
-            await _discordClient.LoginAsync(TokenType.Bot, _credentials.DiscordToken);
-            await _discordClient.StartAsync();
+            if (!usingMicrosoftLogger)
+            {
+                _discordClient.UseMicrosoftLogging(_logger);
+                usingMicrosoftLogger = true;
+            }
         }
 
         public DiscordSocketClient GetDiscordClient()
         {
             return _discordClient;
+        }
+
+        public async Task StartClient(Func<SocketMessage, Task> messageReceivedMethod)
+        {
+            _discordClient.MessageReceived += messageReceivedMethod;
+            await _discordClient.LoginAsync(TokenType.Bot, _credentials.DiscordToken);
+            await _discordClient.StartAsync();
         }
     }
 }

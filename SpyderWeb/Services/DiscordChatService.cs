@@ -22,7 +22,7 @@ namespace SpyderWeb.Services
 
         public async Task LogMessageToChannelAsync(string message, string channelName = "General")
         {
-            var filter = _provider.GetRequiredService<IOptions<DiscordFilter>>().Value;
+            var filter = _provider.GetRequiredService<IOptionsMonitor<DiscordFilter>>().CurrentValue;
             var channelOptions = filter.Channels.FirstOrDefault(c => c.Name.Equals(channelName));
             if (_discord.GetChannel(channelOptions.Id) is IMessageChannel channel)
                 await channel.SendMessageAsync(message);

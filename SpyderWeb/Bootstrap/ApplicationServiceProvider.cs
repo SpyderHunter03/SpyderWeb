@@ -23,7 +23,7 @@ namespace SpyderWeb.Bootstrap
 
             // Add Services
             serviceCollection.AddTransient<IApp, App>();
-            serviceCollection.AddTransient<IDiscordClientService, DiscordClientService>();
+            serviceCollection.AddSingleton<IDiscordClientService, DiscordClientService>();
             serviceCollection.AddSingleton<BaseDiscordClient, DiscordSocketClient>();
             serviceCollection.AddTransient<ICommandHandlingService, CommandHandlingService>();
             serviceCollection.AddTransient<IApiSettings, ApiSettings>(); //add user options here or create my own and pass in options and populate then

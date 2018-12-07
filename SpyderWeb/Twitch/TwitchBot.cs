@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpyderWeb.Data.User;
+using SpyderWeb.Options;
 using SpyderWeb.Services;
 using System;
 using System.Collections.Generic;
@@ -25,20 +26,20 @@ namespace SpyderWeb.Twitch
         private readonly ILogger _logger;
         private readonly IDiscordChatService _discordChatService;
         private readonly ITwitchAPI _twitchAPI;
-        private readonly Options.Credentials _options;
+        private readonly Credentials _options;
         private readonly LiteDatabase _database;
 
         public TwitchBot(
             ILoggerFactory loggerFactory,
             IDiscordChatService discordChatService,
             ITwitchAPI twitchApi,
-            IOptions<Options.Credentials> options, 
+            IOptionsMonitor<Credentials> options, 
             LiteDatabase database)
         {
             _logger = loggerFactory.CreateLogger("twitch");
             _discordChatService = discordChatService;
             _twitchAPI = twitchApi;
-            _options = options.Value;
+            _options = options.CurrentValue;
             _database = database;
         }
 

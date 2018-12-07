@@ -16,7 +16,7 @@ namespace SpyderWeb.Preconditions
 
         public override Task<PreconditionResult> CheckPermissions(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
-            var filter = services.GetRequiredService<IOptions<DiscordFilter>>().Value;
+            var filter = services.GetRequiredService<IOptionsMonitor<DiscordFilter>>().CurrentValue;
             if (!(context.User is SocketGuildUser user)) return NotUser;
             if (filter.IsElevated(context.User as SocketGuildUser)) return Elevated;
             return NotElevated;

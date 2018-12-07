@@ -3,6 +3,7 @@ using Discord.Commands;
 using Microsoft.Extensions.Options;
 using SpyderWeb.Data.Tags;
 using SpyderWeb.EmojiTools;
+using SpyderWeb.Options;
 using SpyderWeb.Preconditions;
 using SpyderWeb.Services;
 using System;
@@ -17,15 +18,15 @@ namespace SpyderWeb.Modules
         private readonly IDatabaseService _database;
         private readonly ITagService _tagService;
 
-        private readonly Options.Credentials _options;
+        private readonly Credentials _options;
 
         public TagModule(
             IEmojiService emoji,
-            IOptions<Options.Credentials> options,
+            IOptionsMonitor<Credentials> options,
             IDatabaseService database,
             ITagService tagService) : base(emoji)
         {
-            _options = options.Value;
+            _options = options.CurrentValue;
             _database = database;
             _tagService = tagService;
         }

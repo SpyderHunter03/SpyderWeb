@@ -15,7 +15,7 @@ namespace SpyderWeb.Modules
     [Name("Bot Information")]
     public class InfoModule : SpyderModuleBase
     {
-        public InfoModule(IEmojiService emojiService, IOptions<DiscordFilter> filter) : base (emojiService) => Filter = filter.Value;
+        public InfoModule(IEmojiService emojiService, IOptionsMonitor<DiscordFilter> filter) : base (emojiService) => Filter = filter.CurrentValue;
 
         [DontInject]
         public DiscordFilter Filter { get; set; }

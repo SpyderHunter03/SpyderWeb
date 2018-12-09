@@ -3,6 +3,7 @@ using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using SpyderWeb.Options;
+using SpyderWeb.Services.Interfaces;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpyderWeb", "SpyderWeb\Spyd
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{FF9FFE6B-F422-4251-9CBF-89471D8DF01E}"
 	ProjectSection(SolutionItems) = preProject
+		config.example.json = config.example.json
 		config.json = config.json
 		emojis.json = emojis.json
 		filter.json = filter.json

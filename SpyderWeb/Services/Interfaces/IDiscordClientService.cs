@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace SpyderWeb.Services
+namespace SpyderWeb.Services.Interfaces
 {
     public interface IDiscordClientService
     {

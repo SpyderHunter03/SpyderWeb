@@ -15,10 +15,13 @@ namespace SpyderWeb.Modules
     [Name("Bot Information")]
     public class InfoModule : SpyderModuleBase
     {
-        public InfoModule(IEmojiService emojiService, IOptionsMonitor<DiscordFilter> filter) : base (emojiService) => Filter = filter.CurrentValue;
+        public InfoModule(
+            IEmojiService emojiService, 
+            IOptionsMonitor<DiscordFilter> filter) : base (emojiService) => 
+            _filter = filter.CurrentValue;
 
-        [DontInject]
-        public DiscordFilter Filter { get; set; }
+        //[DontInject]
+        private readonly DiscordFilter _filter;
 
         [Command("info")]
         [Alias("about","whoami","owner")]
@@ -57,9 +60,9 @@ namespace SpyderWeb.Modules
             var embed = new EmbedBuilder()
                 .WithTitle("Debug")
                 .AddField("Whitelisted Channels",
-                    string.Join(", ", Filter.Channels.Select(x => MentionUtils.MentionChannel(x.Id))))
+                    string.Join(", ", _filter.Channels.Select(x => MentionUtils.MentionChannel(x.Id))))
                 .AddField("Elevated Users",
-                    string.Join(", ", Filter.Users.Select(x => MentionUtils.MentionUser(x))))
+                    string.Join(", ", _filter.Users.Select(x => MentionUtils.MentionUser(x))))
                 .Build();
 
             await ReplyAsync("", embed: embed);

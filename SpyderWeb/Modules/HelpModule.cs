@@ -1,7 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using SpyderWeb.EmojiTools;
-using SpyderWeb.Services;
+using SpyderWeb.Services.Interfaces;
 using System.Text;
 using System.Threading.Tasks;
 

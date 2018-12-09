@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using SpyderWeb.Data.Tags;
 using SpyderWeb.Helpers;
+using SpyderWeb.Services.Interfaces;
 using System.Collections.Generic;
 
 namespace SpyderWeb.Services

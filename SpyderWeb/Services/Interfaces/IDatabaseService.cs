@@ -1,7 +1,7 @@
 ﻿using SpyderWeb.Data.Tags;
 using System.Collections.Generic;
 
-namespace SpyderWeb.Services
+namespace SpyderWeb.Services.Interfaces
 {
     public interface IDatabaseService
     {

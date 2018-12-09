@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using SpyderWeb.EmojiTools;
 using SpyderWeb.Options;
 using SpyderWeb.Services;
+using SpyderWeb.Services.Interfaces;
 using SpyderWeb.Twitch;
 using TwitchLib.Api;
 using TwitchLib.Api.Core;
@@ -26,7 +27,8 @@ namespace SpyderWeb.Bootstrap
             serviceCollection.AddSingleton<IDiscordClientService, DiscordClientService>();
             serviceCollection.AddSingleton<BaseDiscordClient, DiscordSocketClient>();
             serviceCollection.AddTransient<ICommandHandlingService, CommandHandlingService>();
-            serviceCollection.AddTransient<IApiSettings, ApiSettings>(); //add user options here or create my own and pass in options and populate then
+            //add user options here or create my own and pass in options and populate then
+            serviceCollection.AddTransient<IApiSettings, ApiSettings>();
             serviceCollection.AddTransient<ITwitchAPI, TwitchAPI>();
             serviceCollection.AddSingleton<ITwitchBot, TwitchBot>();
             serviceCollection.AddTransient<IDiscordChatService, DiscordChatService>();
@@ -35,6 +37,7 @@ namespace SpyderWeb.Bootstrap
             serviceCollection.AddSingleton<CommandService>();
 
             // Add Options
+            serviceCollection.AddOptions();
             serviceCollection.Configure<Credentials>(configuration);
             serviceCollection.Configure<DiscordFilter>(configuration);
 

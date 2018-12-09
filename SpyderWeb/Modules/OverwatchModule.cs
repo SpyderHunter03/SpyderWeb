@@ -28,9 +28,18 @@ namespace SpyderWeb.Modules
                 {
                     var embed = new EmbedBuilder()
                         .WithTitle(name)
-                        .AddField("Current SR", player.CompetitiveRank)
-                        .WithUrl(player.ProfileUrl)
-                        .WithThumbnailUrl(player.CompetitiveRankImageUrl ?? player.ProfilePortraitUrl);
+                        .WithUrl(player.ProfileUrl);
+                    if (player.IsProfilePrivate)
+                    {
+                        embed
+                            .AddField("Error", "This players profile is private.");
+                    }
+                    else
+                    {
+                        embed
+                            .AddField("Current SR", player.CompetitiveRank)
+                            .WithThumbnailUrl(player.CompetitiveRankImageUrl ?? player.ProfilePortraitUrl);
+                    }
 
                     await ReplyAsync("", embed: embed.Build());
                 }

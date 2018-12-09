@@ -5,7 +5,7 @@ using SpyderWeb.Data.Tags;
 using SpyderWeb.EmojiTools;
 using SpyderWeb.Options;
 using SpyderWeb.Preconditions;
-using SpyderWeb.Services;
+using SpyderWeb.Services.Interfaces;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

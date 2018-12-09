@@ -1,6 +1,8 @@
 ﻿using Discord.Commands;
 using Microsoft.Extensions.Logging;
+using SpyderWeb.Services.Interfaces;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace SpyderWeb.Services
@@ -27,6 +29,9 @@ namespace SpyderWeb.Services
 
         private async void Init()
         {
+            //Add all modules in the project
+            await _commands.AddModulesAsync(Assembly.GetExecutingAssembly());
+
             await BuildTagsAsync();
         }
 
@@ -34,6 +39,8 @@ namespace SpyderWeb.Services
         {
             if (Module == null)
                 await _commands.RemoveModuleAsync(Module);
+
+            
 
             var tags = _database.GetTags();
 

@@ -1,7 +1,7 @@
 ﻿using Discord.Commands;
 using System.Threading.Tasks;
 
-namespace SpyderWeb.Services
+namespace SpyderWeb.Services.Interfaces
 {
     public interface ITagService
     {

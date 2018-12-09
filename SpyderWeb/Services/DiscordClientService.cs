@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpyderWeb.MicrosoftLogging;
 using SpyderWeb.Options;
+using SpyderWeb.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
 

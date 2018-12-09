@@ -1,4 +1,4 @@
-﻿using SpyderWeb.Services;
+﻿using SpyderWeb.Services.Interfaces;
 
 namespace SpyderWeb
 {

@@ -22,6 +22,7 @@ namespace SpyderWeb.EmojiTools
         {
             if (emojiDictionary == null || emojiDictionary.Count == 0)
             {
+                emojiDictionary = new Dictionary<string, string>();
                 var emojiFileObject = ReadEmojiFile(_emojiFileName);
 
                 emojiFileObject.People.ForEach(p => AddListToDictionary(p));

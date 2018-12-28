@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="TwitchLib" Version="3.0.1" />
+    <PackageReference Include="TwitchLib.Client" Version="3.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpyderWeb.Configurations\SpyderWeb.Configurations.csproj" />
+    <ProjectReference Include="..\SpyderWeb.Database\SpyderWeb.Database.csproj" />
+    <ProjectReference Include="..\SpyderWeb.DiscordMessageSender\SpyderWeb.DiscordMessageSender.csproj" />
+  </ItemGroup>
+
+</Project>

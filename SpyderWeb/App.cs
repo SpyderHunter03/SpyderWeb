@@ -1,4 +1,4 @@
-﻿using SpyderWeb.Services.Interfaces;
+﻿using SpyderWeb.TwitchBot;
 
 namespace SpyderWeb
 {

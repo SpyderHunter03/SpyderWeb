@@ -3,11 +3,16 @@ using Discord.Rest;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SpyderWeb.Configurations;
+using SpyderWeb.Database;
+using SpyderWeb.DiscordMessageSender;
 using SpyderWeb.EmojiTools;
-using SpyderWeb.Options;
-using SpyderWeb.Services;
-using SpyderWeb.Services.Interfaces;
+using SpyderWeb.FacebookCore;
+using SpyderWeb.FacebookCore.Interfaces;
+using SpyderWeb.Models;
+using SpyderWeb.TagService;
 using SpyderWeb.Twitch;
+using SpyderWeb.TwitchBot;
 using TwitchLib.Api;
 using TwitchLib.Api.Core;
 using TwitchLib.Api.Core.Interfaces;
@@ -30,11 +35,13 @@ namespace SpyderWeb.Bootstrap
             //add user options here or create my own and pass in options and populate then
             serviceCollection.AddTransient<IApiSettings, ApiSettings>();
             serviceCollection.AddTransient<ITwitchAPI, TwitchAPI>();
-            serviceCollection.AddSingleton<ITwitchBot, TwitchBot>();
+            serviceCollection.AddSingleton<ITwitchBot, Twitch.TwitchBot>();
             serviceCollection.AddTransient<IDiscordChatService, DiscordChatService>();
             serviceCollection.AddSingleton<IEmojiService, EmojiService>();
-            serviceCollection.AddSingleton<ITagService, TagService>();
+            serviceCollection.AddSingleton<ITagService, TagService.TagService>();
             serviceCollection.AddSingleton<CommandService>();
+            serviceCollection.AddTransient<IFacebookClient, FacebookClient>();
+            serviceCollection.AddTransient<IFacebookService, FacebookService>();
 
             // Add Options
             serviceCollection.AddOptions();
@@ -45,7 +52,8 @@ namespace SpyderWeb.Bootstrap
             serviceCollection.AddLogging(x => x.AddConsole());
 
             // Add Database
-            serviceCollection.AddTransient<IDatabaseService, LiteDatabaseService>();
+            serviceCollection.AddTransient<IDatabaseService<Tag>, LiteDatabaseService<Tag>>();
+            serviceCollection.AddTransient<IDatabaseService<TwitchUser>, LiteDatabaseService<TwitchUser>>();
 
             return serviceCollection;
 

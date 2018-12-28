@@ -5,13 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net" Version="1.0.2" />
-    <PackageReference Include="Discord.Net.Core" Version="1.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\SpyderWeb.EmojiTools\SpyderWeb.EmojiTools.csproj" />
     <ProjectReference Include="..\SpyderWeb.ModuleBase\SpyderWeb.ModuleBase.csproj" />
-    <ProjectReference Include="..\SpyderWeb.TagService\SpyderWeb.TagService.csproj" />
   </ItemGroup>
 
 </Project>

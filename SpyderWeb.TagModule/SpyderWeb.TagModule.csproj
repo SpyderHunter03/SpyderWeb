@@ -6,10 +6,13 @@
 
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="1.0.2" />
-    <PackageReference Include="Discord.Net.Core" Version="1.0.2" />
+    <PackageReference Include="Discord.Net.Commands" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SpyderWeb.Configurations\SpyderWeb.Configurations.csproj" />
+    <ProjectReference Include="..\SpyderWeb.Database\SpyderWeb.Database.csproj" />
+    <ProjectReference Include="..\SpyderWeb.Models\SpyderWeb.Models.csproj" />
     <ProjectReference Include="..\SpyderWeb.ModuleBase\SpyderWeb.ModuleBase.csproj" />
     <ProjectReference Include="..\SpyderWeb.TagService\SpyderWeb.TagService.csproj" />
   </ItemGroup>

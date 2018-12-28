@@ -3,8 +3,10 @@
   "discordToken": "",
   "twitchBotUsername": "",
   "twitchChannel": "",
+  "twitchChannelId": "",
   "twitchSecret": "",
   "twitchClientId": "",
   "facebookAppId": "",
-  "facebookAppSecret": ""
+  "facebookAppSecret": "",
+  "fortniteApiKey": ""
 }

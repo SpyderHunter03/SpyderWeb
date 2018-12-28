@@ -5,12 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net" Version="1.0.2" />
-    <PackageReference Include="Discord.Net.Core" Version="1.0.2" />
+    <None Remove="CommandHandlingService.cs~RF5193043f.TMP" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SpyderWeb.ModuleBase\SpyderWeb.ModuleBase.csproj" />
+    <PackageReference Include="Discord.Net" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpyderWeb.Configurations\SpyderWeb.Configurations.csproj" />
+    <ProjectReference Include="..\SpyderWeb.MicrosoftLogging\SpyderWeb.MicrosoftLogging.csproj" />
     <ProjectReference Include="..\SpyderWeb.TagService\SpyderWeb.TagService.csproj" />
   </ItemGroup>
 

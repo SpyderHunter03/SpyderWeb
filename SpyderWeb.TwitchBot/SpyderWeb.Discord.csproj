@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CommandHandlingService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="CommandHandlingService.cs~RF5193043f.TMP" />
+    <None Remove="Modules\OverwatchModule.cs~RF6fc2503.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Discord.Net" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpyderWeb.Configurations\SpyderWeb.Configurations.csproj" />
+    <ProjectReference Include="..\SpyderWeb.Database\SpyderWeb.Database.csproj" />
+    <ProjectReference Include="..\SpyderWeb.EmojiTools\SpyderWeb.EmojiTools.csproj" />
+    <ProjectReference Include="..\SpyderWeb.Events\SpyderWeb.Events.csproj" />
+    <ProjectReference Include="..\SpyderWeb.Overwatch\SpyderWeb.Overwatch.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Runtime">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.1.0\ref\netcoreapp2.1\System.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

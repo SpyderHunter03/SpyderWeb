@@ -1,18 +1,19 @@
-﻿using Discord.Commands;
+﻿using AutoMapper;
+using Discord.Commands;
 using Discord.Rest;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SpyderWeb.Configurations;
 using SpyderWeb.Database;
+using SpyderWeb.Discord;
 using SpyderWeb.DiscordMessageSender;
 using SpyderWeb.EmojiTools;
 using SpyderWeb.FacebookCore;
 using SpyderWeb.FacebookCore.Interfaces;
 using SpyderWeb.Models;
-using SpyderWeb.TagService;
+using SpyderWeb.Overwatch;
 using SpyderWeb.Twitch;
-using SpyderWeb.TwitchBot;
 using TwitchLib.Api;
 using TwitchLib.Api.Core;
 using TwitchLib.Api.Core.Interfaces;
@@ -30,18 +31,19 @@ namespace SpyderWeb.Bootstrap
             // Add Services
             serviceCollection.AddTransient<IApp, App>();
             serviceCollection.AddSingleton<IDiscordClientService, DiscordClientService>();
-            serviceCollection.AddSingleton<BaseDiscordClient, DiscordSocketClient>();
-            serviceCollection.AddTransient<ICommandHandlingService, CommandHandlingService>();
-            //add user options here or create my own and pass in options and populate then
             serviceCollection.AddTransient<IApiSettings, ApiSettings>();
             serviceCollection.AddTransient<ITwitchAPI, TwitchAPI>();
             serviceCollection.AddSingleton<ITwitchBot, Twitch.TwitchBot>();
             serviceCollection.AddTransient<IDiscordChatService, DiscordChatService>();
             serviceCollection.AddSingleton<IEmojiService, EmojiService>();
-            serviceCollection.AddSingleton<ITagService, TagService.TagService>();
-            serviceCollection.AddSingleton<CommandService>();
+            serviceCollection.AddSingleton<IDiscordCustomCommandService, DiscordCustomCommandService>();
             serviceCollection.AddTransient<IFacebookClient, FacebookClient>();
             serviceCollection.AddTransient<IFacebookService, FacebookService>();
+            serviceCollection.AddTransient<IOverwatchService, OverwatchService>();
+
+            // Add Discord
+            serviceCollection.AddSingleton<BaseDiscordClient, DiscordSocketClient>();
+            serviceCollection.AddSingleton<CommandService>();
 
             // Add Options
             serviceCollection.AddOptions();
@@ -54,6 +56,15 @@ namespace SpyderWeb.Bootstrap
             // Add Database
             serviceCollection.AddTransient<IDatabaseService<Tag>, LiteDatabaseService<Tag>>();
             serviceCollection.AddTransient<IDatabaseService<TwitchUser>, LiteDatabaseService<TwitchUser>>();
+
+            // Add AutoMapper
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new OverwatchProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            serviceCollection.AddSingleton(mapper);
 
             return serviceCollection;
 

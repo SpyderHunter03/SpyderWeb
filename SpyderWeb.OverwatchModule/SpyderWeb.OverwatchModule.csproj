@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SpyderWeb.EmojiTools\SpyderWeb.EmojiTools.csproj" />
     <ProjectReference Include="..\SpyderWeb.ModuleBase\SpyderWeb.ModuleBase.csproj" />
+    <ProjectReference Include="..\SpyderWeb.Overwatch\SpyderWeb.Overwatch.csproj" />
   </ItemGroup>
 
 </Project>

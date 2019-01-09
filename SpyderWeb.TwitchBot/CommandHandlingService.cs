@@ -1,41 +1,36 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.Rest;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpyderWeb.Configurations;
-using SpyderWeb.MicrosoftLogging;
-using SpyderWeb.TagService;
 using System;
 using System.Threading.Tasks;
 
-namespace SpyderWeb.TwitchBot
+namespace SpyderWeb.Discord
 {
     public class CommandHandlingService : ICommandHandlingService
     {
-        private readonly CommandService _commands;
-        private readonly IDiscordClientService _discordClientService;
+        private readonly DiscordSocketClient _discordClient;
+        private readonly IDiscordCommandService _discordCommandService;
         private readonly DiscordFilter _filter;
-        private readonly IServiceProvider _provider;
         private readonly char _discordCommandPrefix;
 
         public CommandHandlingService(
-            IServiceProvider provider,
-            IDiscordClientService discordClientService,
-            CommandService commands,
+            BaseDiscordClient discordClient,
+            IDiscordCommandService discordCommandService,
             IOptionsMonitor<DiscordFilter> filter,
             IOptionsMonitor<Credentials> credentials,
-            ILoggerFactory loggerFactory,
-            ITagService tagService)
+            ILoggerFactory loggerFactory)
         {
-            _provider = provider;
-            _commands = commands;
-            _discordClientService = discordClientService;
+            _discordClient = discordClient as DiscordSocketClient;
+            _discordCommandService = discordCommandService;
             _filter = filter.CurrentValue;
             _discordCommandPrefix = credentials.CurrentValue.DiscordPrefix[0];
 
-            var logger = loggerFactory.CreateLogger("commands");
-            _commands.Log += new LogAdapter(logger).Log;
+            var logger = loggerFactory.CreateLogger("CommandHandlingService");
+            _discordCommandService.AddLog(new DiscordLogAdapter(logger).Log);
         }
 
         public async Task MessageReceived(SocketMessage rawMessage)
@@ -46,16 +41,21 @@ namespace SpyderWeb.TwitchBot
             if (!_filter.IsWhitelisted(message.Channel)) return;
 
             int argPos = 0;
-            if (!(message.HasMentionPrefix(_discordClientService.GetDiscordClient().CurrentUser, ref argPos)
+            if (!(message.HasMentionPrefix(_discordClient.CurrentUser, ref argPos)
                 || message.HasCharPrefix(_discordCommandPrefix, ref argPos)))
                 return;
 
-            var context = new SocketCommandContext(_discordClientService.GetDiscordClient(), message);
-            var result = await _commands.ExecuteAsync(context, argPos, _provider);
+            var context = new SocketCommandContext(_discordClient, message);
+            var result = await _discordCommandService.ExecuteAsync(context, argPos);
             if (result.Error.HasValue && result.Error.Value != CommandError.UnknownCommand)
             {
                 await context.Channel.SendMessageAsync(result.ErrorReason);
             }
         }
+    }
+
+    public interface ICommandHandlingService
+    {
+        Task MessageReceived(SocketMessage rawMessage);
     }
 }

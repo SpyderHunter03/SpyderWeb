@@ -14,7 +14,7 @@ namespace SpyderWeb.ModuleBase.Preconditions
         private static readonly Task<PreconditionResult> NotElevated = Task.FromResult(PreconditionResult.FromError("You are not elevated in this guild."));
         private static readonly Task<PreconditionResult> Elevated = Task.FromResult(PreconditionResult.FromSuccess());
 
-        public override Task<PreconditionResult> CheckPermissions(ICommandContext context, CommandInfo command, IServiceProvider services)
+        public override Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
         {
             var filter = services.GetRequiredService<IOptionsMonitor<DiscordFilter>>().CurrentValue;
             if (!(context.User is SocketGuildUser user)) return NotUser;

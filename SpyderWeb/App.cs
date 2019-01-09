@@ -1,23 +1,19 @@
-﻿using SpyderWeb.TwitchBot;
+﻿using SpyderWeb.Discord;
 
 namespace SpyderWeb
 {
     public class App : IApp
     {
         private readonly IDiscordClientService _discordClientService;
-        private readonly ICommandHandlingService _commandHandlingService;
 
-        public App(
-            IDiscordClientService discordClientService, 
-            ICommandHandlingService commandHandlingService)
+        public App(IDiscordClientService discordClientService)
         {
             _discordClientService = discordClientService;
-            _commandHandlingService = commandHandlingService;
         }
 
         public async void Run()
         {
-            await _discordClientService.StartClient(_commandHandlingService.MessageReceived);
+            await _discordClientService.StartClient();
         }
     }
 }

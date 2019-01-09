@@ -1,5 +1,4 @@
-﻿using Discord;
-using System;
+﻿using System;
 
 namespace SpyderWeb.Models
 {
@@ -7,11 +6,11 @@ namespace SpyderWeb.Models
     {
         public Tag() { }
 
-        public Tag(string name, string content, IUser owner)
+        public Tag(string name, string content, ulong ownerId)
         {
             Name = name;
             Content = content;
-            OwnerId = owner.Id;
+            OwnerId = ownerId;
 
             CreatedAt = DateTimeOffset.Now;
         }

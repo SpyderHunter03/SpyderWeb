@@ -2,10 +2,8 @@
 using Microsoft.Extensions.Logging;
 using SpyderWeb.Database;
 using SpyderWeb.Models;
-using SpyderWeb.ModuleBase;
 using System;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace SpyderWeb.TagService
@@ -13,6 +11,7 @@ namespace SpyderWeb.TagService
     public class TagService : ITagService
     {
         private readonly CommandService _commands;
+        private readonly IServiceProvider _serviceProvider;
         private readonly IDatabaseService<Tag> _database;
         private readonly ILogger _logger;
 
@@ -20,10 +19,12 @@ namespace SpyderWeb.TagService
 
         public TagService(
             CommandService commands,
+            IServiceProvider serviceProvider,
             IDatabaseService<Tag> database,
             ILoggerFactory loggerFactory)
         {
             _commands = commands;
+            _serviceProvider = serviceProvider;
             _database = database;
             _logger = loggerFactory.CreateLogger("tags");
 
@@ -32,13 +33,29 @@ namespace SpyderWeb.TagService
 
         private async void Init()
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ManifestModule.Name.StartsWith("SpyderWeb"));
-            //Add all modules in the solution
-            foreach (Assembly a in assemblies)
+            var all =AppDomain.CurrentDomain.GetAssemblies()
+                        .Where(assembly => assembly.FullName.StartsWith("SpyderWeb"))
+                        //.Select(Assembly.Load)
+                        .SelectMany(x => x.DefinedTypes)
+                        //.Where(type => type.IsClass && !type.IsAbstract)
+                        .Where(type => type.IsClass && !type.IsAbstract && typeof(SpyderModuleBase).IsSubclassOf(type))
+                        //.Where(type => type.IsClass && !type.IsAbstract && type.IsSubclassOf(typeof(SpyderModuleBase)))
+                        //.Where(type => type.IsSubclassOf(typeof(SpyderModuleBase)))
+                        //.Where(type => type.IsAssignableFrom(typeof(SpyderModuleBase)))
+                        //.Where(type => typeof(SpyderModuleBase).GetTypeInfo().IsAssignableFrom(type.AsType()));
+                        .ToList();
+                        
+            foreach (var type in all)
             {
-                if (a.GetTypes().Any(t => t.IsSubclassOf(typeof(SpyderModuleBase))))
-                    await _commands.AddModulesAsync(a);
+                await _commands.AddModuleAsync(type, _serviceProvider);
             }
+            //var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ManifestModule.Name.StartsWith("SpyderWeb"));
+            //Add all modules in the solution
+            //foreach (Assembly a in assemblies)
+            //{
+            //    if (a.GetTypes().Any(t => t.IsSubclassOf(typeof(SpyderModuleBase))))
+            //        await _commands.AddModulesAsync(a, _serviceProvider);
+            //}
 
             await BuildTagsAsync();
         }

@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SpyderWeb.EmojiTools\SpyderWeb.EmojiTools.csproj" />
-    <ProjectReference Include="..\SpyderWeb.ModuleBase\SpyderWeb.ModuleBase.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,18 +4,17 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Discord.Net" Version="1.0.2" />
-    <PackageReference Include="Discord.Net.Commands" Version="1.0.2" />
-    <PackageReference Include="Discord.Net.WebSocket" Version="1.0.2" />
-    <PackageReference Include="FortniteApi" Version="1.2.0" />
-    <PackageReference Include="LiteDB" Version="4.1.4" />
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Discord.Net" Version="2.0.0" />
+    <PackageReference Include="Discord.Net.Commands" Version="2.0.0" />
+    <PackageReference Include="Discord.Net.WebSocket" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.2.0" />
-    <PackageReference Include="Overwatch.Net" Version="4.2.0" />
     <PackageReference Include="TwitchLib" Version="3.0.1" />
   </ItemGroup>
   <ItemGroup>
@@ -25,10 +24,9 @@
     <ProjectReference Include="..\SpyderWeb.EmojiTools\SpyderWeb.EmojiTools.csproj" />
     <ProjectReference Include="..\SpyderWeb.FacebookCore\SpyderWeb.FacebookCore.csproj" />
     <ProjectReference Include="..\SpyderWeb.Helpers\SpyderWeb.Helpers.csproj" />
-    <ProjectReference Include="..\SpyderWeb.MicrosoftLogging\SpyderWeb.MicrosoftLogging.csproj" />
     <ProjectReference Include="..\SpyderWeb.Models\SpyderWeb.Models.csproj" />
-    <ProjectReference Include="..\SpyderWeb.TagService\SpyderWeb.TagService.csproj" />
-    <ProjectReference Include="..\SpyderWeb.TwitchBot\SpyderWeb.DiscordBot.csproj" />
+    <ProjectReference Include="..\SpyderWeb.Overwatch\SpyderWeb.Overwatch.csproj" />
+    <ProjectReference Include="..\SpyderWeb.TwitchBot\SpyderWeb.Discord.csproj" />
     <ProjectReference Include="..\SpyderWeb.Twitch\SpyderWeb.Twitch.csproj" />
   </ItemGroup>
   <ItemGroup>

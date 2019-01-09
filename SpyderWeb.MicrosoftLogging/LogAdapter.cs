@@ -12,7 +12,7 @@ namespace SpyderWeb.MicrosoftLogging
 
         public LogAdapter(ILogger logger, Func<LogMessage, Exception, string> formatter = null)
         {
-            _logger = logger;
+            _logger = logger;       
             _formatter = formatter ?? DefaultFormatter;
         }
 

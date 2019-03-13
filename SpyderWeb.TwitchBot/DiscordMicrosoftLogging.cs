@@ -7,7 +7,8 @@ namespace SpyderWeb.Discord
 {
     public static class DiscordMicrosoftLogging
     {
-        public static void UseMicrosoftLogging(this BaseDiscordClient client, ILogger logger, Func<LogMessage, Exception, string> formatter = null)
+        public static void UseMicrosoftLogging(this BaseDiscordClient client, ILogger logger, 
+                                                Func<LogMessage, Exception, string> formatter = null)
         {
             var adaptor = new DiscordLogAdapter(logger, formatter);
             client.Log += adaptor.Log;

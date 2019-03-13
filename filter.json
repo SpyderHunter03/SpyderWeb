@@ -1,22 +1,38 @@
 {
-  "channels": [
+  "guilds": [
     {
-      "id": 357736098643836930,
-      "name": "General"
+      "id": 357736098643836928,
+      "name" : "Spyder Web",
+      "channels" : [
+        {
+          "id": 357736098643836930,
+          "name": "General"
+        },
+        {
+          "id": 491393366416687122,
+          "name": "TestBotChannel"
+        },
+        {
+          "id": 484510522587217932,
+          "name": "Announcements"
+        }
+      ]
     },
     {
-      "id": 491393366416687122,
-      "name": "TestBotChannel"
-    },
-    {
-      "id": 484510522587217932,
-      "name": "Announcements"
+      "id" : 467104359994359812,
+      "name" : "Silver Studios",
+      "channels" : [
+        {
+          "id": 552292148351860736,
+          "name": "repo-notifications"
+        }
+      ]
     }
   ],
-  "guilds": [
-    357736098643836928 // Spyder Web
-  ],
   "users": [
-    337045211362623493 // SpyderHunter03
+    {
+      "id": 337045211362623493,
+      "name" : "SpyderHunter03"
+    }
   ]
 }

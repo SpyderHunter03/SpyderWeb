@@ -20,9 +20,10 @@ namespace SpyderWeb.DiscordMessageSender
 
         public async Task LogMessageToChannelAsync(string message, string channelName = "General")
         {
-            var channelOptions = _discordFilter.Channels.FirstOrDefault(c => c.Name.Equals(channelName));
-            if (_discord.GetChannel(channelOptions.Id) is IMessageChannel channel)
-                await channel.SendMessageAsync(message);
+            // TODO: Figure out a way to not use _discordFilter.Channels
+            //var channelOptions = _discordFilter.Channels.FirstOrDefault(c => c.Name.Equals(channelName));
+            // if (_discord.GetChannel(channelOptions.Id) is IMessageChannel channel)
+            //     await channel.SendMessageAsync(message);
         }
     }
 }

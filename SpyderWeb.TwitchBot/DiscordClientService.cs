@@ -15,7 +15,7 @@ namespace SpyderWeb.Discord
         private readonly ILogger _logger;
         private readonly IDiscordCustomCommandService _discordCustomCommandService;
 
-        private bool usingMicrosoftLogger = false;
+        private bool useMicrosoftLoggerSet = false;
 
         public DiscordClientService(
             ILoggerFactory loggerFactory,
@@ -33,16 +33,11 @@ namespace SpyderWeb.Discord
 
         private void ConfigureService()
         {
-            if (!usingMicrosoftLogger)
+            if (!useMicrosoftLoggerSet)
             {                
                 _discordClient.UseMicrosoftLogging(_logger);
-                usingMicrosoftLogger = true;
+                useMicrosoftLoggerSet = true;
             }
-        }
-
-        public DiscordSocketClient GetDiscordClient()
-        {
-            return _discordClient;
         }
 
         public async Task StartClient()
@@ -56,6 +51,5 @@ namespace SpyderWeb.Discord
     public interface IDiscordClientService
     {
         Task StartClient();
-        DiscordSocketClient GetDiscordClient();
     }
 }

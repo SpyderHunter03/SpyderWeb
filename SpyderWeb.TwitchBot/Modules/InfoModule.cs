@@ -34,7 +34,7 @@ namespace SpyderWeb.Discord.Modules
             var guild = Context.Guild;
 
             await ReplyAsync(
-                $"SpyderWeb is a private-use Discord bot for Discord.Net's support channels.\n\n" +
+                $"SpyderBot is a private-use Discord bot for Discord.Net's support channels.\n\n" +
                 $"{Format.Bold("Info")}\n" +
                 $"- Author: {app.Owner} ({app.Owner.Id})\n" +
                 $"- Channel: {channel.Name} ({channel.Id})\n" +
@@ -51,22 +51,22 @@ namespace SpyderWeb.Discord.Modules
                 $"- Users: {Context.Client.Guilds.Sum(g => g.Users.Count)}\n");
         }
 
-        [Command("debug")]
-        [RequireElevatedUser]
-        [Name("debug*")]
-        [Summary("Get bot debug info")]
-        public async Task DebugAsync()
-        {
-            var embed = new EmbedBuilder()
-                .WithTitle("Debug")
-                .AddField("Whitelisted Channels",
-                    string.Join(", ", _filter.Channels.Select(x => MentionUtils.MentionChannel(x.Id))))
-                .AddField("Elevated Users",
-                    string.Join(", ", _filter.Users.Select(x => MentionUtils.MentionUser(x))))
-                .Build();
+        // [Command("debug")]
+        // [RequireElevatedUser]
+        // [Name("debug*")]
+        // [Summary("Get bot debug info")]
+        // public async Task DebugAsync()
+        // {
+        //     var embed = new EmbedBuilder()
+        //         .WithTitle("Debug")
+        //         .AddField("Whitelisted Channels",
+        //             string.Join(", ", _filter.Channels.Select(x => MentionUtils.MentionChannel(x.Id))))
+        //         .AddField("Elevated Users",
+        //             string.Join(", ", _filter.Users.Select(x => MentionUtils.MentionUser(x.Id))))
+        //         .Build();
 
-            await ReplyAsync("", embed: embed);
-        }
+        //     await ReplyAsync("", embed: embed);
+        // }
 
         private static string GetUptime() => (DateTime.Now - Process.GetCurrentProcess().StartTime).ToString(@"dd\.hh\:mm\ss");
         private static string GetHeapSize() => Math.Round(GC.GetTotalMemory(true) / (1024.0 * 1024.0), 2).ToString();

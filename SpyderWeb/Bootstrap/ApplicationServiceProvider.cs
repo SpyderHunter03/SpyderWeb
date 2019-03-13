@@ -58,13 +58,13 @@ namespace SpyderWeb.Bootstrap
             serviceCollection.AddTransient<IDatabaseService<TwitchUser>, LiteDatabaseService<TwitchUser>>();
 
             // Add AutoMapper
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new OverwatchProfile());
-            });
+            // var mappingConfig = new MapperConfiguration(mc =>
+            // {
+            //     mc.AddProfile(new OverwatchProfile());
+            // });
 
-            IMapper mapper = mappingConfig.CreateMapper();
-            serviceCollection.AddSingleton(mapper);
+            // IMapper mapper = mappingConfig.CreateMapper();
+            // serviceCollection.AddSingleton(mapper);
 
             return serviceCollection;
 

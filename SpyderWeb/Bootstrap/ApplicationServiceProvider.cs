@@ -36,7 +36,6 @@ namespace SpyderWeb.Bootstrap
             serviceCollection.AddSingleton<ITwitchBot, Twitch.TwitchBot>();
             serviceCollection.AddTransient<IDiscordChatService, DiscordChatService>();
             serviceCollection.AddSingleton<IEmojiService, EmojiService>();
-            serviceCollection.AddSingleton<IDiscordCustomCommandService, DiscordCustomCommandService>();
             serviceCollection.AddTransient<IFacebookClient, FacebookClient>();
             serviceCollection.AddTransient<IFacebookService, FacebookService>();
             serviceCollection.AddTransient<IOverwatchService, OverwatchService>();

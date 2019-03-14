@@ -40,7 +40,7 @@ namespace SpyderWeb.Discord
                 useMicrosoftLoggerSet = true;
             }
             // TODO: Move InfoModule registration somewhere else
-            EventPublisher.MessageReceivedEvent += InfoModuleV2.MessageReceivedAsync;
+            EventPublisher.MessageReceivedEvent += InfoModule.MessageReceived;
             EventPublisher.SendMessageEvent += SendMessageAsync;
         }
 

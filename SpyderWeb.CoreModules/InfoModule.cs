@@ -6,21 +6,15 @@ using SpyderWeb.Events.EventArguments;
 
 namespace SpyderWeb.CoreModules
 {
-    public static class InfoModuleV2 // : CoreModule<IInfoModule>
+    public static class InfoModule // : CoreModule<IInfoModule>
     {
-        public static async void MessageReceivedAsync(object sender, MessageReceivedArgs args)
+        public static void MessageReceived(object sender, MessageReceivedArgs args)
         {
             if (args.Message.IndexOf("!info", StringComparison.InvariantCultureIgnoreCase) >= 0)
-                await InfoMethodAsync(sender, args);
+                InfoMethod(sender, args);
         }
 
-        // public async Task MessageReceivedAsync(string message, params object[] args)
-        // {
-        //     if (message.IndexOf("!info", StringComparison.InvariantCultureIgnoreCase) >= 0)
-        //         InfoMethod(message, args);
-        // }
-
-        private static async Task InfoMethodAsync(object sender, MessageReceivedArgs args)
+        private static void InfoMethod(object sender, MessageReceivedArgs args)
         {
             var responseMessage = $"SpyderBot is a private-use Discord/Twitch bot.\n\n"
                 + $"**Info**\n"
@@ -39,10 +33,10 @@ namespace SpyderWeb.CoreModules
                 //+ $"- Users: {Context.Client.Guilds.Sum(g => g.Users.Count)}\n"
                 ;
 
-            await SendMessageAsync(sender, responseMessage);
+            SendMessage(sender, responseMessage);
         }
 
-        private static async Task SendMessageAsync(object sender, string message)
+        private static void SendMessage(object sender, string message)
         {
             EventPublisher.OnSendMessageEvent(sender, new SendMessageArgs(message, sender));
         }

@@ -1,0 +1,26 @@
+Todo list:
+    Discord Service needs to have starting:
+        ☐ Inform repo-notifications channel bot is turned on
+        Start Here: @high 
+        ☐ Register Modules already in system
+        ☐ Interface method for Messages Received
+            Implementation:
+        ☐ Interface method for Send Messages
+            ☐ Send Messages to default channel
+            ☐ Send Messages to specific channel
+        ☐ Interface method for Send Reactions
+    Modules:
+        ☐ Base class for registration
+        ☐ Interface method for Action on Message Received
+        ☐ Need to be able to set channel listening to
+        ☐ Need to be able to set channel sending message to
+        ☐ Need to be able to restrict based on user
+        ☐ Need to be able to restrict based on role
+        ☐ Need to be able to restrict based on admin
+☐ Make sure bot runs
+☐ Replace OverwatchModule with other package module 
+
+Important Numbers:
+    - 337045211362623493 SpyderHunter03 User Id
+    - 552292148351860736 repo-notifications Channel Id
+    - 467104359994359812 Silver Studios Guild Id

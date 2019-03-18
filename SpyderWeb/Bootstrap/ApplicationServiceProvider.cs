@@ -7,7 +7,6 @@ using Microsoft.Extensions.Logging;
 using SpyderWeb.Configurations;
 using SpyderWeb.Database;
 using SpyderWeb.Discord;
-using SpyderWeb.DiscordMessageSender;
 using SpyderWeb.EmojiTools;
 using SpyderWeb.FacebookCore;
 using SpyderWeb.FacebookCore.Interfaces;
@@ -34,7 +33,6 @@ namespace SpyderWeb.Bootstrap
             serviceCollection.AddTransient<IApiSettings, ApiSettings>();
             serviceCollection.AddTransient<ITwitchAPI, TwitchAPI>();
             serviceCollection.AddSingleton<ITwitchBot, Twitch.TwitchBot>();
-            serviceCollection.AddTransient<IDiscordChatService, DiscordChatService>();
             serviceCollection.AddSingleton<IEmojiService, EmojiService>();
             serviceCollection.AddTransient<IFacebookClient, FacebookClient>();
             serviceCollection.AddTransient<IFacebookService, FacebookService>();

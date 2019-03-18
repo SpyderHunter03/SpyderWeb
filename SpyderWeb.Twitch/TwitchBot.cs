@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using SpyderWeb.Configurations;
 using SpyderWeb.Database;
-using SpyderWeb.DiscordMessageSender;
+//using SpyderWeb.DiscordMessageSender;
 using SpyderWeb.Models;
 using System;
 using System.Collections.Generic;
@@ -23,20 +23,17 @@ namespace SpyderWeb.Twitch
         private TwitchClient _client;
         private FollowerService _service;
         private readonly ILogger _logger;
-        private readonly IDiscordChatService _discordChatService;
         private readonly ITwitchAPI _twitchAPI;
         private readonly Credentials _options;
         private readonly IDatabaseService<TwitchUser> _database;
 
         public TwitchBot(
             ILoggerFactory loggerFactory,
-            IDiscordChatService discordChatService,
             ITwitchAPI twitchApi,
             IOptionsMonitor<Credentials> options,
             IDatabaseService<TwitchUser> database)
         {
             _logger = loggerFactory.CreateLogger("twitch");
-            _discordChatService = discordChatService;
             _twitchAPI = twitchApi;
             _options = options.CurrentValue;
             _database = database;
@@ -88,20 +85,20 @@ namespace SpyderWeb.Twitch
         {
             _logger.LogInformation("Hey guys! I am a bot connected via TwitchLib!");
             _client.SendMessage(e.Channel, "Hey guys! I am a bot connected via TwitchLib!");
-            Task.Run(async () => await _discordChatService.LogMessageToChannelAsync("Hey guys! I am a bot connected via TwitchLib!", "TestBotChannel"));
+            //Task.Run(async () => await _discordChatService.LogMessageToChannelAsync("Hey guys! I am a bot connected via TwitchLib!", "TestBotChannel"));
         }
 
         private void OnNewSubscriber(object sender, OnNewSubscriberArgs e)
         {
             _logger.LogInformation($"We had a new subscriber! Thank you for subbing {e.Subscriber.DisplayName}.");
             _client.SendMessage(e.Channel, $"We had a new subscriber! Thank you for subbing {e.Subscriber.DisplayName}.");
-            Task.Run(async () => await _discordChatService.LogMessageToChannelAsync($"We had a new subscriber! Thank you for subbing {e.Subscriber.DisplayName}.", "Announcements"));
+            //Task.Run(async () => await _discordChatService.LogMessageToChannelAsync($"We had a new subscriber! Thank you for subbing {e.Subscriber.DisplayName}.", "Announcements"));
         }
 
         private void OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
             _logger.LogInformation($"Received message. {e.ChatMessage.Message}");
-            Task.Run(async () => await _discordChatService.LogMessageToChannelAsync($"Received message. {e.ChatMessage.Message}", "TestBotChannel"));
+            //Task.Run(async () => await _discordChatService.LogMessageToChannelAsync($"Received message. {e.ChatMessage.Message}", "TestBotChannel"));
         }
 
         private void OnServiceStarted(object sender, OnServiceStartedArgs e)
@@ -134,7 +131,7 @@ namespace SpyderWeb.Twitch
                     var followersNames = string.Join(", ", users.Users.Select(u => u.DisplayName).ToList());
                     _logger.LogInformation($"We had a new follower.  Thank you for following { followersNames }");
                     _client.SendMessage(e.Channel, $"We had a new follower.  Thank you for following { followersNames }");
-                    Task.Run(async () => await _discordChatService.LogMessageToChannelAsync($"We had a new follower.  Thank you for following { followersNames }", "Announcements"));
+                    //Task.Run(async () => await _discordChatService.LogMessageToChannelAsync($"We had a new follower.  Thank you for following { followersNames }", "Announcements"));
                 }
             }
         }

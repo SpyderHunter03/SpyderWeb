@@ -33,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Core", "1 - Core", "{47
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Services", "5 - Services", "{381C5E75-2D57-43B6-8AAE-A42ED756537E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpyderWeb.Discord", "SpyderWeb.TwitchBot\SpyderWeb.Discord.csproj", "{82A31DD3-2655-4A2C-B752-59D397FB8AB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpyderWeb.Discord", "SpyderWeb.Discord\SpyderWeb.Discord.csproj", "{82A31DD3-2655-4A2C-B752-59D397FB8AB8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpyderWeb.Configurations", "SpyderWeb.Configurations\SpyderWeb.Configurations.csproj", "{8269CDEE-4AF6-4186-8BD3-2D904E68E60D}"
 EndProject

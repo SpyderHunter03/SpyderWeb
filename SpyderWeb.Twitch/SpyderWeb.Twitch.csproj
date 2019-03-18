@@ -12,7 +12,6 @@
   <ItemGroup>
     <ProjectReference Include="..\SpyderWeb.Configurations\SpyderWeb.Configurations.csproj" />
     <ProjectReference Include="..\SpyderWeb.Database\SpyderWeb.Database.csproj" />
-    <ProjectReference Include="..\SpyderWeb.DiscordMessageSender\SpyderWeb.DiscordMessageSender.csproj" />
   </ItemGroup>
 
 </Project>

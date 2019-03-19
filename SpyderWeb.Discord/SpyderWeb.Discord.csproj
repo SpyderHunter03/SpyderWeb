@@ -24,7 +24,6 @@
     <ProjectReference Include="..\SpyderWeb.Database\SpyderWeb.Database.csproj" />
     <ProjectReference Include="..\SpyderWeb.EmojiTools\SpyderWeb.EmojiTools.csproj" />
     <ProjectReference Include="..\SpyderWeb.Events\SpyderWeb.Events.csproj" />
-    <ProjectReference Include="..\SpyderWeb.Overwatch\SpyderWeb.Overwatch.csproj" />
     <ProjectReference Include="..\SpyderWeb.CoreModules\SpyderWeb.CoreModules.csproj" />
   </ItemGroup>
 

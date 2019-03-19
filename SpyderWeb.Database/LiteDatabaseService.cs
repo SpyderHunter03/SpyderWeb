@@ -1,11 +1,11 @@
 ﻿using LiteDB;
+using SpyderWeb.Database.Models;
 using SpyderWeb.Helpers;
-using SpyderWeb.Models;
 using System.Collections.Generic;
 
 namespace SpyderWeb.Database
 {
-    public class LiteDatabaseService<T> : IDatabaseService<T> where T : IDatabaseObject
+    public class LiteDatabaseService<T> : IDatabaseService<T> where T : BaseDatabaseObject
     {
         private readonly LiteDatabase _database;
         public LiteDatabaseService()

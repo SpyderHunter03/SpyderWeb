@@ -6,12 +6,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SpyderWeb.Configurations;
 using SpyderWeb.Database;
+using SpyderWeb.Database.Models;
 using SpyderWeb.Discord;
 using SpyderWeb.EmojiTools;
 using SpyderWeb.FacebookCore;
 using SpyderWeb.FacebookCore.Interfaces;
-using SpyderWeb.Models;
-using SpyderWeb.Overwatch;
 using SpyderWeb.Twitch;
 using TwitchLib.Api;
 using TwitchLib.Api.Core;
@@ -36,7 +35,6 @@ namespace SpyderWeb.Bootstrap
             serviceCollection.AddSingleton<IEmojiService, EmojiService>();
             serviceCollection.AddTransient<IFacebookClient, FacebookClient>();
             serviceCollection.AddTransient<IFacebookService, FacebookService>();
-            serviceCollection.AddTransient<IOverwatchService, OverwatchService>();
 
             // Add Discord
             serviceCollection.AddSingleton<BaseDiscordClient, DiscordSocketClient>();
@@ -51,8 +49,12 @@ namespace SpyderWeb.Bootstrap
             serviceCollection.AddLogging(x => x.AddConsole());
 
             // Add Database
-            serviceCollection.AddTransient<IDatabaseService<Tag>, LiteDatabaseService<Tag>>();
-            serviceCollection.AddTransient<IDatabaseService<TwitchUser>, LiteDatabaseService<TwitchUser>>();
+            // serviceCollection.AddTransient<IDatabaseService<Tag>, LiteDatabaseService<Tag>>();
+            // serviceCollection.AddTransient<IDatabaseService<TwitchUser>, LiteDatabaseService<TwitchUser>>();
+            serviceCollection.AddTransient<IDatabaseService<User>, LiteDatabaseService<User>>();
+            serviceCollection.AddTransient<IDatabaseService<DiscordServer>, LiteDatabaseService<DiscordServer>>();
+            serviceCollection.AddTransient<IDatabaseService<Commands>, LiteDatabaseService<Commands>>();
+            serviceCollection.AddTransient<IDatabaseService<CommandModule>, LiteDatabaseService<CommandModule>>();
 
             // Add AutoMapper
             // var mappingConfig = new MapperConfiguration(mc =>

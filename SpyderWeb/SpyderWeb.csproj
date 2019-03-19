@@ -23,8 +23,6 @@
     <ProjectReference Include="..\SpyderWeb.EmojiTools\SpyderWeb.EmojiTools.csproj" />
     <ProjectReference Include="..\SpyderWeb.FacebookCore\SpyderWeb.FacebookCore.csproj" />
     <ProjectReference Include="..\SpyderWeb.Helpers\SpyderWeb.Helpers.csproj" />
-    <ProjectReference Include="..\SpyderWeb.Models\SpyderWeb.Models.csproj" />
-    <ProjectReference Include="..\SpyderWeb.Overwatch\SpyderWeb.Overwatch.csproj" />
     <ProjectReference Include="..\SpyderWeb.Discord\SpyderWeb.Discord.csproj" />
     <ProjectReference Include="..\SpyderWeb.Twitch\SpyderWeb.Twitch.csproj" />
   </ItemGroup>

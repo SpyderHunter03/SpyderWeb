@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using SpyderWeb.Configurations;
 using SpyderWeb.Database;
 //using SpyderWeb.DiscordMessageSender;
-using SpyderWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,18 +24,19 @@ namespace SpyderWeb.Twitch
         private readonly ILogger _logger;
         private readonly ITwitchAPI _twitchAPI;
         private readonly Credentials _options;
-        private readonly IDatabaseService<TwitchUser> _database;
+        // private readonly IDatabaseService<TwitchUser> _database;
 
         public TwitchBot(
-            ILoggerFactory loggerFactory,
-            ITwitchAPI twitchApi,
-            IOptionsMonitor<Credentials> options,
-            IDatabaseService<TwitchUser> database)
+            ILoggerFactory loggerFactory
+            , ITwitchAPI twitchApi
+            , IOptionsMonitor<Credentials> options
+            // , IDatabaseService<TwitchUser> database
+            )
         {
             _logger = loggerFactory.CreateLogger("twitch");
             _twitchAPI = twitchApi;
             _options = options.CurrentValue;
-            _database = database;
+            // _database = database;
         }
 
         public async Task InitializeAsync(string userName, string oauthToken, string channel)
@@ -113,27 +113,27 @@ namespace SpyderWeb.Twitch
 
         private void OnNewFollowersDetected(object sender, OnNewFollowersDetectedArgs e)
         {
-            var databaseUsers = _database.GetAll();
-            var newFollowers = new List<string>();
-            foreach (var newUser in e.NewFollowers)
-            {
-                if (databaseUsers.FirstOrDefault(u => u.Id == newUser.FromUserId) == null)
-                    newFollowers.Add(newUser.FromUserId);
-            }
+            // var databaseUsers = _database.GetAll();
+            // var newFollowers = new List<string>();
+            // foreach (var newUser in e.NewFollowers)
+            // {
+            //     if (databaseUsers.FirstOrDefault(u => u.Id == newUser.FromUserId) == null)
+            //         newFollowers.Add(newUser.FromUserId);
+            // }
 
-            if (newFollowers.Count() > 0)
-            {
-                var users = _twitchAPI.Helix.Users.GetUsersAsync(newFollowers).Result;
-                Array.ForEach(users.Users, u => _database.Add(new TwitchUser { Id = u.Id, DisplayName = u.DisplayName }));
+            // if (newFollowers.Count() > 0)
+            // {
+            //     var users = _twitchAPI.Helix.Users.GetUsersAsync(newFollowers).Result;
+            //     Array.ForEach(users.Users, u => _database.Add(new TwitchUser { Id = u.Id, DisplayName = u.DisplayName }));
 
-                if (users.Users.Count() > 0)
-                {
-                    var followersNames = string.Join(", ", users.Users.Select(u => u.DisplayName).ToList());
-                    _logger.LogInformation($"We had a new follower.  Thank you for following { followersNames }");
-                    _client.SendMessage(e.Channel, $"We had a new follower.  Thank you for following { followersNames }");
-                    //Task.Run(async () => await _discordChatService.LogMessageToChannelAsync($"We had a new follower.  Thank you for following { followersNames }", "Announcements"));
-                }
-            }
+            //     if (users.Users.Count() > 0)
+            //     {
+            //         var followersNames = string.Join(", ", users.Users.Select(u => u.DisplayName).ToList());
+            //         _logger.LogInformation($"We had a new follower.  Thank you for following { followersNames }");
+            //         _client.SendMessage(e.Channel, $"We had a new follower.  Thank you for following { followersNames }");
+            //         //Task.Run(async () => await _discordChatService.LogMessageToChannelAsync($"We had a new follower.  Thank you for following { followersNames }", "Announcements"));
+            //     }
+            // }
         }
     }
 }

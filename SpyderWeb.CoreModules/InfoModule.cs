@@ -6,17 +6,11 @@ using SpyderWeb.Events.EventArguments;
 
 namespace SpyderWeb.CoreModules
 {
-    public class InfoModule // : CoreModule<IInfoModule>
+    public static class InfoModule // : CoreModule<IInfoModule>
     {
-        
-        public InfoModule()
-        {
-
-        }
-
         public static void MessageReceived(object sender, MessageReceivedArgs args)
         {
-            if (args.Message.IndexOf("info", StringComparison.InvariantCultureIgnoreCase) >= 0)
+            if (args.Message.IndexOf($"{args.Prefix}info", StringComparison.InvariantCultureIgnoreCase) == 0)
                 InfoMethod(sender, args);
         }
 

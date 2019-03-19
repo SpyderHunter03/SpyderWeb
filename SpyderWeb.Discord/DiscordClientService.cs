@@ -118,7 +118,7 @@ namespace SpyderWeb.Discord
 
             int argPos = 0;
             if (!(message.HasMentionPrefix(_discordClient.CurrentUser, ref argPos)
-                || message.HasCharPrefix(_credentials.DiscordPrefix[0], ref argPos)))
+                || message.HasStringPrefix(_credentials.DiscordPrefix, ref argPos)))
                 return;
 
             var context = new SocketCommandContext(_discordClient, message);
@@ -133,7 +133,7 @@ namespace SpyderWeb.Discord
                 // _logger.LogInformation(logMessage);
 
                 /* Send message to all modules */
-                EventPublisher.OnMessageReceivedEvent(context, new MessageReceivedArgs(context.Message.Content, context));
+                EventPublisher.OnMessageReceivedEvent(context, new MessageReceivedArgs(_credentials.DiscordPrefix, context.Message.Content, context));
                 
                 /* return result to context.Channel.SendMessageAsync if there is one */
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SpyderWeb.Events;
 using SpyderWeb.Events.EventArguments;
@@ -22,8 +23,8 @@ namespace SpyderWeb.CoreModules
                 //+ $"- Channel: {channel.Name} ({channel.Id})\n"
                 //+ $"- Guild: {guild.Name} ({guild.Id})\n"
                 //+ $"- Library: Discord.Net ({DiscordConfig.Version})\n"
-                //+ $"- Runtime: {RuntimeInformation.FrameworkDescription} {RuntimeInformation.ProcessArchitecture} "
-                //+    $"({RuntimeInformation.OSDescription} {RuntimeInformation.OSArchitecture})\n"
+                + $"- Runtime: {RuntimeInformation.FrameworkDescription} {RuntimeInformation.ProcessArchitecture} "
+                + $"({RuntimeInformation.OSDescription} {RuntimeInformation.OSArchitecture})\n"
                 + $"- Uptime: {GetUptime()}\n\n"
 
                 + $"**Stats**\n"

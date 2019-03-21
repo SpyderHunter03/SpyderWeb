@@ -163,29 +163,6 @@ namespace SpyderWeb.Discord
             await context.Channel.SendMessageAsync(args.Message);
         }
 
-        // public async void BuildTagsAsync(object sender, EventArgs args)
-        // {
-        //     if (TagsModule == null)
-        //         await _commands.RemoveModuleAsync(TagsModule);
-
-        //     var tags = _database.GetAll();
-
-        //     TagsModule = await _commands.CreateModuleAsync("", module =>
-        //     {
-        //         foreach (var tag in tags)
-        //         {
-        //             module.AddCommand(tag.Name, (context, @params, provider, command) =>
-        //             {
-        //                 return context.Channel.SendMessageAsync(
-        //                     $"{tag.Name}: {tag.Content}");
-        //             },
-        //             command => { });
-        //         }
-        //     });
-
-        //     _logger.LogInformation($"Build {tags.Count()} tags successfully.");
-        // }
-
         private User GetServerOwner(ulong ownerId, string ownerUsername)
         {
             var owner = _userDatabase.GetAll().SingleOrDefault(u => u.DiscordId == ownerId);
@@ -222,6 +199,62 @@ namespace SpyderWeb.Discord
 
             return discordServer;
         }
+
+        /*
+        /// <summary>
+        /// This looks for Assemblies that have been already loaded... 
+        /// But if they aren't directly referenced, then they won't be loaded
+        /// Looking to move to .Net Core MEF solution
+        /// </summary>
+        /// <returns></returns>
+
+        private async void Init()
+        {
+            var all =AppDomain.CurrentDomain.GetAssemblies()
+                        .Where(assembly => assembly.FullName.StartsWith("SpyderWeb"))
+                        .SelectMany(x => x.DefinedTypes)
+                        .Where(type => type.IsClass && !type.IsAbstract && typeof(SpyderModuleBase).IsSubclassOf(type))
+                        .ToList();
+                        
+            foreach (var type in all)
+            {
+                await _commands.AddModuleAsync(type, _serviceProvider);
+            }
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(a => a.ManifestModule.Name.StartsWith("SpyderWeb"));
+            Add all modules in the solution
+            foreach (Assembly a in assemblies)
+            {
+               if (a.GetTypes().Any(t => t.IsSubclassOf(typeof(SpyderModuleBase))))
+                   await _commands.AddModulesAsync(a, _serviceProvider);
+            }
+
+            await BuildTagsAsync();
+        }
+
+        public async void BuildTagsAsync(object sender, EventArgs args)
+        {
+            if (TagsModule == null)
+                await _commands.RemoveModuleAsync(TagsModule);
+
+            var tags = _database.GetAll();
+
+            TagsModule = await _commands.CreateModuleAsync("", module =>
+            {
+                foreach (var tag in tags)
+                {
+                    module.AddCommand(tag.Name, (context, @params, provider, command) =>
+                    {
+                        return context.Channel.SendMessageAsync(
+                            $"{tag.Name}: {tag.Content}");
+                    },
+                    command => { });
+                }
+            });
+
+            _logger.LogInformation($"Build {tags.Count()} tags successfully.");
+        }
+        
+        */
     }
 
     public interface IDiscordClientService

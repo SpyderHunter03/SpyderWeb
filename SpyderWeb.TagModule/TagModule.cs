@@ -1,6 +1,0 @@
-﻿
-
-namespace SpyderWeb.TagModule
-{
-    
-}

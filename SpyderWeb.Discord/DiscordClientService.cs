@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using AutoMapper;
+using Discord;
 using Discord.Commands;
 using Discord.Rest;
 using Discord.WebSocket;
@@ -6,11 +7,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SpyderWeb.Configurations;
 using SpyderWeb.CoreModules;
+using SpyderWeb.CoreModules.Models;
 using SpyderWeb.Database;
 using SpyderWeb.Database.Models;
 using SpyderWeb.Events;
 using SpyderWeb.Events.EventArguments;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -123,22 +126,32 @@ namespace SpyderWeb.Discord
 
             var context = new SocketCommandContext(_discordClient, message);
 
-            await Task.Run(() =>
-            {
-                // var logMessage = 
-                //     $"Message Received: {context.Message.Content}" + Environment.NewLine + 
-                //     $"Message Sent By: {context.User.Username} ({context.User.Id})" + Environment.NewLine + 
-                //     $"From Channel: {context.Channel.Name} ({context.Channel.Id})" + Environment.NewLine + 
-                //     $"From Server/Guild: {context.Guild.Name} ({context.Guild.Id})";
-                // _logger.LogInformation(logMessage);
-
+            await Task.Run(async () =>
+            {                
                 /* Send message to all modules */
-                EventPublisher.OnMessageReceivedEvent(context, new MessageReceivedArgs(_credentials.DiscordPrefix, context.Message.Content, context));
-                
-                /* return result to context.Channel.SendMessageAsync if there is one */
+                var app = await context.Client.GetApplicationInfoAsync();
 
-                /* If there is an error then I want to send the error to: */
-                /* return result to context.Channel.SendMessageAsync if there is one */
+                var discordContext = new DiscordContext
+                {
+                    AppOwner = new DiscordContext.DiscordObject { Id = app.Owner.Id, Name = app.Owner.Username },
+                    Channel = new DiscordContext.DiscordObject { Id = context.Channel.Id, Name = context.Channel.Name },
+                    Guild = new DiscordContext.DiscordObject { Id = context.Guild.Id, Name = context.Guild.Name },
+                    Guilds = context.Client.Guilds.Select(g => new DiscordContext.DiscordStats {
+                        Channels = g.Channels.Select(c => new DiscordContext.DiscordObject {
+                            Id = c.Id,
+                            Name = c.Name
+                        }),
+                        Users = g.Users.Select(u => new DiscordContext.DiscordObject {
+                            Id = u.Id,
+                            Name = u.Username
+                        }),
+                    }),
+                    Version = DiscordConfig.Version
+                };
+
+                EventPublisher.OnMessageReceivedEvent(context, 
+                    new MessageReceivedArgs((int)MessageSender.Discord, _credentials.DiscordPrefix, 
+                                            context.Message.Content, discordContext));
             });
         }
 

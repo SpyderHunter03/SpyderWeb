@@ -59,7 +59,7 @@ namespace SpyderWeb.Bootstrap
             // Add AutoMapper
             // var mappingConfig = new MapperConfiguration(mc =>
             // {
-            //     mc.AddProfile(new OverwatchProfile());
+            //     mc.AddProfile(new DiscordAutomapperProfile());
             // });
 
             // IMapper mapper = mappingConfig.CreateMapper();

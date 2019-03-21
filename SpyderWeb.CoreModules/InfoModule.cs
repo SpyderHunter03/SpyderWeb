@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using SpyderWeb.CoreModules.Models;
 using SpyderWeb.Events;
 using SpyderWeb.Events.EventArguments;
 
@@ -19,20 +21,22 @@ namespace SpyderWeb.CoreModules
         {
             var responseMessage = $"SpyderBot is a private-use Discord/Twitch bot.\n\n"
                 + $"**Info**\n"
-                //+ $"- Author: {app.Owner} ({app.Owner.Id})\n"
-                //+ $"- Channel: {channel.Name} ({channel.Id})\n"
-                //+ $"- Guild: {guild.Name} ({guild.Id})\n"
-                //+ $"- Library: Discord.Net ({DiscordConfig.Version})\n"
                 + $"- Runtime: {RuntimeInformation.FrameworkDescription} {RuntimeInformation.ProcessArchitecture} "
                 + $"({RuntimeInformation.OSDescription} {RuntimeInformation.OSArchitecture})\n"
                 + $"- Uptime: {GetUptime()}\n\n"
-
-                + $"**Stats**\n"
-                + $"- Heap Size: {GetHeapSize()}MiB\n"
-                //+ $"- Guilds: {Context.Client.Guilds.Count}\n"
-                //+ $"- Channels: {Context.Client.Guilds.Sum(g => g.Channels.Count)}\n"
-                //+ $"- Users: {Context.Client.Guilds.Sum(g => g.Users.Count)}\n"
-                ;
+                + $"- Heap Size: {GetHeapSize()}MiB\n";
+                if (args.Sender == (int)MessageSender.Discord && args.MessageContext as DiscordContext != null)
+                {
+                    var discordContext = args.MessageContext as DiscordContext;
+                    responseMessage += $"\n**Stats**\n"
+                    + $"- Library: Discord.Net ({discordContext.Version})\n"
+                    + $"- Bot Author: {discordContext.AppOwner.Name} ({discordContext.AppOwner.Id})\n"
+                    + $"- Originating Guild: {discordContext.Guild.Name} ({discordContext.Guild.Id})\n"
+                    + $"- Originating Channel: {discordContext.Channel.Name} ({discordContext.Channel.Id})\n"
+                    + $"- Guilds Using Bot: {discordContext.Guilds.Count()}\n"
+                    + $"- Channels In Using Guilds: {discordContext.Guilds.Sum(g => g.Channels.Count())}\n"
+                    + $"- Users In Using Guilds: {discordContext.Guilds.Sum(g => g.Users.Count())}";
+                }
 
             SendMessage(sender, responseMessage);
         }

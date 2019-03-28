@@ -1,18 +1,20 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using SpyderWeb.Bootstrap;
 using SpyderWeb.Configurations;
-using System.Threading.Tasks;
 
 namespace SpyderWeb
 {
     public class Program
     {
-        private static void Main(string[] args)
-            => MainAsync(args).ConfigureAwait(false).GetAwaiter().GetResult();
+        private static void Main (string[] args) => MainAsync (args).ConfigureAwait (false).GetAwaiter ().GetResult ();
 
-        public static async Task MainAsync(string[] args)
+        public static async Task MainAsync (string[] args)
         {
-            await StartApplication();
+            Console.WriteLine ($"Args:{Environment.NewLine}{string.Join($",{Environment.NewLine}", args)}");
+
+            await StartApplication ();
 
             // if (args.Length > 0)
             // {
@@ -46,19 +48,19 @@ namespace SpyderWeb
             // }
         }
 
-        private static async Task StartApplication()
+        private static async Task StartApplication ()
         {
-            var serviceCollection = ApplicationServiceProvider.ConfigureServices();
+            var serviceCollection = ApplicationServiceProvider.ConfigureServices ();
 
             //create service provider
-            var serviceProvider = serviceCollection.BuildServiceProvider(true);
+            var serviceProvider = serviceCollection.BuildServiceProvider (true);
 
             //entry to run app
-            var app = serviceProvider.GetService<IApp>();
+            var app = serviceProvider.GetService<IApp> ();
 
-            app.Run();
+            app.Run ();
 
-            await Task.Delay(-1);
+            await Task.Delay (-1);
         }
     }
 }

@@ -4,15 +4,16 @@
 # ENTRYPOINT ["dotnet", "SpyderWeb.dll"]
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
+# WORKDIR /app
 
 # copy csproj and restore as distinct layers
-COPY *.sln .
-COPY SpyderWeb/*.csproj ./SpyderWeb/
-RUN dotnet restore
+# COPY *.sln .
+# COPY SpyderWeb*/*.csproj ./SpyderWeb*/
+# RUN dotnet restore
 
 # copy everything else and build app
-COPY SpyderWeb/. ./SpyderWeb/
-WORKDIR /app/SpyderWeb
+# COPY SpyderWeb*/. ./SpyderWeb*/
+# WORKDIR /app/SpyderWeb
 RUN dotnet publish -c Release -o out
 
 

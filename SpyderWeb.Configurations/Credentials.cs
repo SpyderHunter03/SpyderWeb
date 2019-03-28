@@ -2,9 +2,10 @@
 {
     public class Credentials
     {
-        public string DiscordPrefix { get; set; }
+        public string DiscordPrefix { get; set; } = "sw!";
         public string DiscordToken { get; set; }
         public string DiscordBotClientId { get; set; }
+        public string DiscordBotClientSecret { get; set; }
         public string TwitchBotUsername { get; set; }
         public string TwitchChannel { get; set; }
         public string TwitchChannelId { get; set; }

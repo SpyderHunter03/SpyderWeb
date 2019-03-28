@@ -28,8 +28,7 @@
     <ProjectReference Include="..\SpyderWeb.Twitch\SpyderWeb.Twitch.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Settings.job">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Update="Settings.job" CopyToOutputDirectory="Always" />
+    <Content Include="../*.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
   </ItemGroup>
 </Project>

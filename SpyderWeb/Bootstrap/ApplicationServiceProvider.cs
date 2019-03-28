@@ -21,7 +21,7 @@ namespace SpyderWeb.Bootstrap
 {
     public static class ApplicationServiceProvider
     {
-        public static IServiceCollection ConfigureServices()
+        public static IServiceCollection ConfigureServices(Credentials credentials = null)
         {
             var configuration = ApplicationConfigurationProvider.BuildConfig();
             IServiceCollection serviceCollection = new ServiceCollection();
@@ -40,10 +40,19 @@ namespace SpyderWeb.Bootstrap
             serviceCollection.AddSingleton<BaseDiscordClient, DiscordSocketClient>();
             serviceCollection.AddSingleton<CommandService>();
 
-            // Add Options
-            serviceCollection.AddOptions();
-            serviceCollection.Configure<Credentials>(configuration);
-            serviceCollection.Configure<DiscordFilter>(configuration);
+            // Currently allowing for json file or 
+            if (credentials == null)
+            {
+                // Add Options
+                serviceCollection.AddOptions();
+                serviceCollection.Configure<Credentials>(configuration);
+                serviceCollection.Configure<DiscordFilter>(configuration);
+            }
+            else
+            {
+                // Instead of AddOptions setup
+                serviceCollection.AddSingleton<Credentials>(credentials);
+            }
 
             // Add Logging
             serviceCollection.AddLogging(x => x.AddConsole());

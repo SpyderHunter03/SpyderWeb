@@ -1,6 +1,8 @@
 {
-  "discordPrefix": "",
+  "discordPrefix": "sw!",
   "discordToken": "",
+  "discordBotClientId": "",
+  "discordBotClientSecret": "",
   "twitchBotUsername": "",
   "twitchChannel": "",
   "twitchChannelId": "",

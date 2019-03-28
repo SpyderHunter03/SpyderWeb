@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace SpyderWeb.Helpers
 {
@@ -21,22 +22,13 @@ namespace SpyderWeb.Helpers
             // If it isn't cached, go get it:
 
             // Get whether the app is being launched from / (deployed) or /src/SpyderWeb (debug)
-            var cwd = Directory.GetCurrentDirectory();
-            Console.WriteLine(cwd);
-            var sln = Directory.GetFiles(cwd).Any(f => f.Contains(".sln"));
-            Console.WriteLine(string.Join(", ", Directory.GetFiles(cwd)));
-            if (sln) return cwd;
+            var dir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+            Console.WriteLine($"Current Assembly Directory: {dir}");
+            Console.WriteLine($"Current Assembly Directory Files:{Environment.NewLine}{string.Join($",{Environment.NewLine}", Directory.GetFiles(dir))}");
+            if (Directory.GetFiles(dir).Any(f => f.Contains("config.json")))
+                return _configRoot = dir;
 
-            foreach (var file in Directory.GetDirectories(cwd))
-            {
-                var indexOfBin = file.IndexOf("bin");
-                if (indexOfBin < 0)
-                    continue;
-                var path = file.Substring(0, indexOfBin - 1);
-                return _configRoot = Path.Combine(path, "..");
-            }
-            
-            throw new Exception($"Bin file not found in {cwd}");
+            throw new Exception($"Config.json not found in {dir}");
         }
     }
 }

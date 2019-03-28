@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using SpyderWeb.Bootstrap;
+using SpyderWeb.Configurations;
 using System.Threading.Tasks;
 
 namespace SpyderWeb
@@ -10,6 +11,42 @@ namespace SpyderWeb
             => MainAsync(args).ConfigureAwait(false).GetAwaiter().GetResult();
 
         public static async Task MainAsync(string[] args)
+        {
+            await StartApplication();
+
+            // if (args.Length > 0)
+            // {
+            //     var inputArgs = new Credentials();
+            //     for (var i = 0; i < args.Length; i++)
+            //     {
+            //         var arg = args[i];
+            //         switch(arg)
+            //         {
+            //             case "-d":
+            //             case "--discordToken":
+            //                 if (args.Length > i+1)
+            //                 {
+            //                     var discordToken = args[++i];
+            //                     if (!discordToken.StartsWith('-'))
+            //                     {
+            //                         inputArgs.DiscordToken = discordToken;
+            //                     }
+            //                 }
+            //                 break;
+            //             default:
+            //                 //Ignore
+            //                 break;
+            //         }
+            //     }
+
+            //     if (inputArgs.DiscordToken?.Length > 0)
+            //     {
+            //         await StartApplication();
+            //     }
+            // }
+        }
+
+        private static async Task StartApplication()
         {
             var serviceCollection = ApplicationServiceProvider.ConfigureServices();
 

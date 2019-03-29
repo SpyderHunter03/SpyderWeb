@@ -8,4 +8,4 @@ RUN dotnet restore
 # copy and build everything else
 COPY . ./
 RUN dotnet publish -c Release -o out
-ENTRYPOINT ["dotnet", "SpyderWeb/out/SpyderWeb.dll"]
+ENTRYPOINT ["dotnet", "SpyderWeb/out/SpyderWeb.dll", "--discordToken", "${DiscordToken}"]

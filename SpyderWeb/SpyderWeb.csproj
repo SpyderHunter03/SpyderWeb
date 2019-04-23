@@ -30,6 +30,7 @@
   <ItemGroup>
     <None Update="Settings.job" CopyToOutputDirectory="Always" />
     <Content Include="../*.json" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
+    <Content Include="../*.sh" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
     <Content Include="../DockerFile" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
   </ItemGroup>
 </Project>
